@@ -9,9 +9,9 @@ services:
       dockerfile: Dockerfile
     container_name: gpswox_app
     restart: unless-stopped
-    ports:
-      - "9001:9001"
-      - "9002:9002"
+    expose:
+      - "80"
+      - "9001"
     volumes:
       - .:/var/www/html
       - ./storage:/var/www/html/storage
