@@ -64,8 +64,15 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Créer les dossiers nécessaires
+RUN mkdir -p /var/www/html/bootstrap/cache \
+    && mkdir -p /var/www/html/storage/framework/cache \
+    && mkdir -p /var/www/html/storage/framework/sessions \
+    && mkdir -p /var/www/html/storage/framework/views \
+    && mkdir -p /var/www/html/storage/logs
+
+# Install PHP dependencies (sans scripts artisan - le .env n'est pas dispo au build)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Install Node socket dependencies
 RUN npm install --prefix socket

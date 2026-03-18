@@ -11,6 +11,9 @@ until php -r "new PDO('mysql:host=${DB_HOST};dbname=${DB_DATABASE}', '${DB_USERN
 done
 echo "==> MySQL connecté."
 
+# Package discovery (skippé au build)
+php artisan package:discover --ansi || true
+
 # Lien storage
 php artisan storage:link --force || true
 
