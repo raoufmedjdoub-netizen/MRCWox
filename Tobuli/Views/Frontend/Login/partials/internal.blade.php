@@ -10,12 +10,13 @@
             'class' => 'form-control',
             'placeholder' => implode(' / ', array_map(fn ($auth) => $auth->getInputTitle(), $internalAuths)),
             'id' => 'sign-in-form-email',
+            'autocomplete' => 'username',
         ]
     ) !!}
 </div>
 
 <div class="form-group">
-    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => trans('validation.attributes.password'), 'id' => 'sign-in-form-password']) !!}
+    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => trans('validation.attributes.password'), 'id' => 'sign-in-form-password', 'autocomplete' => 'current-password']) !!}
 </div>
 
 @include('Frontend.Captcha.form')
@@ -24,28 +25,19 @@
     <div class="form-group">
         <div class="checkbox">
             {!! Form::checkbox('remember_me', 1, ['id' => 'sign-in-form-remember']) !!}
-            <label>{!! trans('validation.attributes.remember_me') !!}</label>
+            <label for="sign-in-form-remember">{!! trans('validation.attributes.remember_me') !!}</label>
         </div>
     </div>
 @endif
 
-<button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit">{!! trans('front.sign_in') !!}</button>
+<button class="btn btn-primary" name="Submit" value="Login" type="Submit">{!! trans('front.sign_in') !!}</button>
 
-<hr>
+<hr class="divider">
 
-<div class="form-group">
-    <div class="row">
-        <div class="col-sm-12">
-            <a href="{!! route('password_reminder.create') !!}"
-               class="btn btn-block btn-lg btn-default">{!! trans('front.cant_sign_in') !!}</a>
-        </div>
-        <div class="col-sm-12">
-            @if (settings('main_settings.allow_users_registration'))
-                <a href="{!! route('registration.create') !!}"
-                   class="btn btn-block btn-lg btn-default">{!! trans('front.not_a_member') !!}</a>
-            @endif
-        </div>
-    </div>
-</div>
+<a href="{!! route('password_reminder.create') !!}" class="btn btn-default">{!! trans('front.cant_sign_in') !!}</a>
+
+@if (settings('main_settings.allow_users_registration'))
+    <a href="{!! route('registration.create') !!}" class="btn btn-default">{!! trans('front.not_a_member') !!}</a>
+@endif
 
 {!! Form::close() !!}

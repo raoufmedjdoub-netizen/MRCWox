@@ -3,6 +3,47 @@
 <head>
     @include('Frontend.Layouts.partials.head')
     @yield('styles')
+    <style>
+        /* Default layout header overrides */
+        #header {
+            background: #1e2235 !important;
+            border-bottom: none !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+        }
+        #header .navbar { background: transparent !important; border: none !important; }
+        #header .navbar-brand img { max-height: 32px; }
+        #header .nav > li > a {
+            color: rgba(255,255,255,0.75) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            transition: color 0.2s, background 0.2s;
+        }
+        #header .nav > li > a:hover,
+        #header .nav > li.open > a {
+            color: #fff !important;
+            background: rgba(255,255,255,0.08) !important;
+        }
+        #header .dropdown-menu {
+            background: #1e2235 !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
+            padding: 6px !important;
+        }
+        #header .dropdown-menu > li > a {
+            color: rgba(255,255,255,0.8) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            border-radius: 7px !important;
+            padding: 8px 12px !important;
+        }
+        #header .dropdown-menu > li > a:hover {
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+        .content { background: #F4F6F8 !important; min-height: calc(100vh - 52px); }
+    </style>
 </head>
 <body>
 

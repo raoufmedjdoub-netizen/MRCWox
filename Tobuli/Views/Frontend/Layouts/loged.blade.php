@@ -3,6 +3,151 @@
 <head>
     @include('Frontend.Layouts.partials.head')
     @yield('styles')
+    <style>
+        /* ===== Modern UI Overrides ===== */
+
+        /* Header */
+        #header {
+            background: #1e2235 !important;
+            border-bottom: none !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+        }
+        #header .navbar { background: transparent !important; border: none !important; min-height: 52px; }
+        #header .navbar-brand { padding: 10px 15px; }
+        #header .navbar-brand img { max-height: 32px; }
+        #header .nav > li > a {
+            color: rgba(255,255,255,0.75) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            padding: 16px 14px;
+            transition: color 0.2s, background 0.2s;
+        }
+        #header .nav > li > a:hover,
+        #header .nav > li.open > a {
+            color: #fff !important;
+            background: rgba(255,255,255,0.08) !important;
+        }
+        #header .dropdown-menu {
+            background: #1e2235 !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
+            min-width: 200px !important;
+            padding: 6px !important;
+            margin-top: 4px !important;
+        }
+        #header .dropdown-menu > li > a {
+            color: rgba(255,255,255,0.8) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            border-radius: 7px !important;
+            padding: 8px 12px !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #header .dropdown-menu > li > a:hover {
+            background: rgba(255,255,255,0.1) !important;
+            color: #fff !important;
+        }
+        #header .badge {
+            background: #1CB4D9 !important;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            background: #1e2235 !important;
+            border-right: none !important;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.15) !important;
+        }
+        #sidebar .sidebar-content { background: transparent !important; }
+        #sidebar .nav-tabs {
+            background: transparent !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        #sidebar .nav-tabs > li > a {
+            color: rgba(255,255,255,0.6) !important;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 12px 16px !important;
+            background: transparent !important;
+            transition: color 0.2s;
+        }
+        #sidebar .nav-tabs > li > a:hover {
+            color: rgba(255,255,255,0.9) !important;
+            background: rgba(255,255,255,0.06) !important;
+        }
+        #sidebar .nav-tabs > li.active > a,
+        #sidebar .nav-tabs > li.active > a:focus {
+            color: #fff !important;
+            background: transparent !important;
+            border-bottom: 2px solid #1CB4D9 !important;
+            font-weight: 600;
+        }
+        #sidebar .btn-collapse { background: #2a2f4a !important; border-radius: 0 8px 8px 0 !important; }
+        #sidebar .btn-collapse i { border-color: rgba(255,255,255,0.5) !important; }
+        #sidebar .btn-collapse:hover i { border-color: #fff !important; }
+
+        /* Sidebar search inputs */
+        #sidebar .form-control,
+        #sidebar input[type="text"],
+        #sidebar input[type="search"] {
+            background: rgba(255,255,255,0.07) !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            color: rgba(255,255,255,0.9) !important;
+            border-radius: 8px !important;
+            font-family: 'Inter', sans-serif;
+        }
+        #sidebar .form-control::placeholder { color: rgba(255,255,255,0.35) !important; }
+        #sidebar .form-control:focus {
+            border-color: #71a8e6 !important;
+            box-shadow: 0 0 0 3px rgba(113,168,230,0.18) !important;
+            background: rgba(255,255,255,0.1) !important;
+        }
+
+        /* Sidebar device list items */
+        #sidebar .list-group-item,
+        #sidebar .device-item,
+        #sidebar .obj {
+            background: transparent !important;
+            border-color: rgba(255,255,255,0.07) !important;
+            color: rgba(255,255,255,0.85) !important;
+        }
+        #sidebar .list-group-item:hover,
+        #sidebar .device-item:hover,
+        #sidebar .obj:hover {
+            background: rgba(255,255,255,0.06) !important;
+        }
+        #sidebar .list-group-item.active,
+        #sidebar .device-item.active,
+        #sidebar .obj.active {
+            background: rgba(113,168,230,0.15) !important;
+            border-left: 3px solid #71a8e6 !important;
+        }
+
+        /* Map controls */
+        .map-controls .btn {
+            background: #fff !important;
+            border: 1px solid #DDE3E8 !important;
+            color: #30313D !important;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 6px rgba(60,66,87,0.1) !important;
+        }
+        .map-controls .btn:hover { background: #F4F6F8 !important; }
+
+        /* Bottom bar */
+        #bottombar {
+            background: #fff !important;
+            border-top: 1px solid #DDE3E8 !important;
+            box-shadow: 0 -4px 12px rgba(60,66,87,0.08) !important;
+        }
+    </style>
 </head>
 
 <body style="overflow: hidden;">
