@@ -1,0 +1,42 @@
+# Environnement - NE JAMAIS POUSSER
+.env
+.env.local
+.env.*.local
+
+# Dépendances PHP
+/vendor/
+
+# Dépendances Node
+/node_modules/
+/socket/node_modules/
+
+# Laravel cache
+/bootstrap/cache/*.php
+/storage/*.key
+/storage/app/public/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/storage/logs/*
+
+# Docker SSL (certificats privés)
+/docker/ssl/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build
+/public/hot
+/public/storage
+
+# Claude (config locale)
+.claude/
