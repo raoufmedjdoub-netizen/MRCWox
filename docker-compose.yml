@@ -13,7 +13,6 @@ services:
       - "80"
       - "9001"
     volumes:
-      - .:/var/www/html
       - ./storage:/var/www/html/storage
       - ./docker/ssl:/var/www/html/ssl
     env_file:
