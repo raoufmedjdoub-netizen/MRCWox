@@ -40,7 +40,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_DATABASE: gpswox_web
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
