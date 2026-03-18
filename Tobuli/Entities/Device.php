@@ -363,6 +363,11 @@ class Device extends AbstractEntity implements DisplayInterface, FcmTokenableInt
         });
     }
 
+    public function setIconIdAttribute($value)
+    {
+        $this->attributes['icon_id'] = $value ?: null;
+    }
+
     public function icon()
     {
         return $this->hasOne('Tobuli\Entities\DeviceIcon', 'id', 'icon_id');

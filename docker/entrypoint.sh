@@ -34,6 +34,41 @@ php artisan config:cache
 php artisan route:clear
 php artisan view:clear
 
+# Créer la base gpswox_traccar si elle n'existe pas (requise par les migrations traccar_mysql)
+echo "==> Vérification base gpswox_traccar..."
+php -r "
+try {
+    \$pdo = new PDO('mysql:host=${DB_HOST:-mysql};port=${DB_PORT:-3306}', '${DB_USERNAME}', '${DB_PASSWORD}');
+    \$pdo->exec('CREATE DATABASE IF NOT EXISTS \`gpswox_traccar\` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci');
+    // Créer la table devices si elle n'existe pas (migrations ALTER en ont besoin)
+    \$pdo->exec('CREATE TABLE IF NOT EXISTS \`gpswox_traccar\`.\`devices\` (
+        \`id\` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        \`name\` varchar(255) DEFAULT NULL,
+        \`uniqueId\` varchar(255) DEFAULT NULL,
+        \`latestPosition_id\` bigint(20) unsigned DEFAULT NULL,
+        \`lastValidLatitude\` double DEFAULT NULL,
+        \`lastValidLongitude\` double DEFAULT NULL,
+        \`device_time\` datetime DEFAULT NULL,
+        \`server_time\` datetime DEFAULT NULL,
+        \`ack_time\` datetime DEFAULT NULL,
+        \`time\` datetime DEFAULT NULL,
+        \`speed\` double DEFAULT NULL,
+        \`other\` text DEFAULT NULL,
+        \`altitude\` double DEFAULT NULL,
+        \`power\` double DEFAULT NULL,
+        \`course\` double DEFAULT NULL,
+        \`address\` varchar(255) DEFAULT NULL,
+        \`protocol\` varchar(50) DEFAULT NULL,
+        \`latest_positions\` text DEFAULT NULL,
+        PRIMARY KEY (\`id\`),
+        UNIQUE KEY \`uniqueId\` (\`uniqueId\`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci');
+    echo 'gpswox_traccar OK' . PHP_EOL;
+} catch(Exception \$e) {
+    echo 'gpswox_traccar warning: ' . \$e->getMessage() . PHP_EOL;
+}
+" 2>/dev/null || true
+
 # Migrations
 echo "==> Migrations en cours..."
 # Supprimer les migrations échouées pour permettre le re-run
