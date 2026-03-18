@@ -96,11 +96,13 @@ services:
         condition: service_healthy
     ports:
       - "8082:8082"       # Interface web Traccar (admin)
-      - "12050:12050"     # GT06 — balises GPS (Coban, TK103, TK300...)
-      - "5027:5027"       # Teltonika
+      - "12050:12050"     # Teltonika FMB (port personnalisé)
+      - "5023:5023"       # GT06 (Coban, TK103, TK300...)
       - "5055:5055"       # OsmAnd
       - "5013:5013"       # H02
-      - "5023:5023"       # Concox
+      - "5004:5004"       # GL200 (Queclink)
+      - "5002:5002"       # TK103
+      - "5093:5093"       # Watch
     volumes:
       - ./docker/traccar/traccar.xml:/opt/traccar/conf/traccar.xml:ro
       - traccar_logs:/opt/traccar/logs
