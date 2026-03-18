@@ -148,7 +148,7 @@ $result = [
         'Collective\Html\HtmlServiceProvider',
         'App\Providers\ConfigurableMailServiceProvider',
 		'Maatwebsite\Excel\ExcelServiceProvider',
-		'Bugsnag\BugsnagLaravel\BugsnagServiceProvider',
+		// 'Bugsnag\BugsnagLaravel\BugsnagServiceProvider', // Disabled
 		'Illuminate\Broadcasting\BroadcastServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
         //'App\Providers\HTMLMinifyServiceProvider',
