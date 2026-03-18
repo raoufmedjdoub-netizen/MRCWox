@@ -36,6 +36,13 @@ php artisan view:clear
 
 # Migrations
 echo "==> Migrations en cours..."
+# Supprimer les migrations échouées pour permettre le re-run
+php -r "
+try {
+    \$pdo = new PDO('mysql:host=${DB_HOST:-mysql};dbname=${web_database}', '${DB_USERNAME}', '${DB_PASSWORD}');
+    \$pdo->exec(\"DELETE FROM migrations WHERE migration = '2026_03_18_000000_seed_tracker_ports_defaults' AND batch IN (SELECT batch FROM (SELECT MAX(batch) as batch FROM migrations) t)\");
+} catch(Exception \$e) {}
+" 2>/dev/null || true
 php artisan migrate --force --no-interaction
 
 # Repermissions après artisan (les commandes artisan créent des fichiers en root)

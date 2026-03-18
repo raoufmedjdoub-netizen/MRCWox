@@ -21,7 +21,7 @@ class SeedTrackerPortsDefaults extends Migration
             ['active' => 1, 'port' => '12050', 'name' => 'teltonika',  'parent' => null, 'extra' => '{}'], // Teltonika FMB — port personnalisé
             ['active' => 1, 'port' => '5055',  'name' => 'osmand',     'parent' => null, 'extra' => '{}'],
             ['active' => 1, 'port' => '5013',  'name' => 'h02',        'parent' => null, 'extra' => '{}'],
-            ['active' => 1, 'port' => '5023',  'name' => 'concox',     'parent' => null, 'extra' => '{}'],
+            ['active' => 1, 'port' => '5108',  'name' => 'concox',     'parent' => null, 'extra' => '{}'],
             ['active' => 1, 'port' => '5004',  'name' => 'gl200',      'parent' => null, 'extra' => '{}'],
             ['active' => 1, 'port' => '5002',  'name' => 'tk103',      'parent' => null, 'extra' => '{}'],
             ['active' => 1, 'port' => '5011',  'name' => 'globalsat',  'parent' => null, 'extra' => '{}'],
