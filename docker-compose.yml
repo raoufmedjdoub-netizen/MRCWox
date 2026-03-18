@@ -10,7 +10,6 @@ services:
     container_name: gpswox_app
     restart: unless-stopped
     ports:
-      - "80:80"
       - "9001:9001"
       - "9002:9002"
     volumes:
