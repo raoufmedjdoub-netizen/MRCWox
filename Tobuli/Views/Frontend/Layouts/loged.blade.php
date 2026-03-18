@@ -23,7 +23,7 @@
             border-right: 1px solid #DDE3E8;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: visible; /* visible pour que le bouton toggle déborde à droite */
             font-family: 'Inter', sans-serif;
         }
         .lnav__logo {
@@ -39,6 +39,7 @@
         .lnav__scroll {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden; /* clip contenu horizontal */
             padding: 0.5rem 0;
             scrollbar-width: thin;
             scrollbar-color: #DDE3E8 transparent;
@@ -48,13 +49,13 @@
         .lnav__item {
             display: flex !important;
             align-items: center !important;
-            gap: 8px !important;
-            padding: 8px !important;
+            gap: 10px !important;
+            padding: 9px 10px !important;
             margin: 0 !important;
             border-radius: 10px !important;
             color: #30313D !important;
             text-decoration: none !important;
-            font-size: 14px !important;
+            font-size: 15px !important;
             font-weight: 400 !important;
             cursor: pointer !important;
             transition: background 0.15s !important;
@@ -75,14 +76,15 @@
         .lnav__scroll { padding: 8px !important; }
         .lnav__footer { padding: 4px 8px 8px !important; }
         .lnav__icon {
-            width: 16px; height: 16px; flex-shrink: 0;
+            width: 20px; height: 20px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
         }
         .lnav__icon .icon {
             display: block !important; margin: 0 !important;
-            width: 16px !important; height: 16px !important;
-            background-size: 16px 16px !important;
+            width: 20px !important; height: 20px !important;
+            background-size: 20px 20px !important;
         }
+        .lnav__icon img { width: 20px !important; height: auto !important; }
         .lnav__badge {
             margin-left: auto; background: #1CB4D9; color: #fff;
             font-size: 0.65rem; border-radius: 10px; padding: 1px 6px;
@@ -135,10 +137,12 @@
         #sidebar .btn-collapse:hover { background: #F3F5F7 !important; }
         /* Panel width */
         #sidebar { width: 300px !important; }
+        /* Étiquette flottante (panneau Traceurs) — mêmes tailles que la nav */
+        #sidebar { font-size: 15px !important; font-family: 'Inter', sans-serif !important; }
         #sidebar .nav-tabs { background: #fff !important; border-bottom: 1px solid #DDE3E8 !important; }
         #sidebar .nav-tabs > li > a {
             color: #6b7280 !important;
-            font-family: 'Inter', sans-serif; font-size: 0.8125rem; font-weight: 500;
+            font-family: 'Inter', sans-serif; font-size: 15px !important; font-weight: 500;
             border: none !important; border-radius: 0 !important;
             padding: 10px 14px !important; background: transparent !important;
             transition: color 0.2s;
@@ -148,6 +152,14 @@
         #sidebar .nav-tabs > li.active > a:focus {
             color: #30313D !important; background: transparent !important;
             border-bottom: 2px solid #1CB4D9 !important; font-weight: 600;
+        }
+        /* Icônes dans le panneau flottant */
+        #sidebar .icon {
+            width: 20px !important; height: 20px !important;
+            background-size: 20px 20px !important;
+        }
+        #sidebar .btn, #sidebar button {
+            font-size: 15px !important;
         }
 
         /* Sidebar search inputs */
@@ -171,26 +183,27 @@
         /* Bottom bar */
         #bottombar { background: #fff !important; border-top: 1px solid #DDE3E8 !important; box-shadow: 0 -4px 12px rgba(60,66,87,0.08) !important; }
 
-        /* ===== Collapse toggle button ===== */
+        /* ===== Collapse toggle button — à cheval sur la bordure droite ===== */
         #lnav-toggle {
             position: absolute;
-            top: 50%; right: 10px;
+            top: 50%;
+            right: -13px; /* déborde de 13px à l'extérieur du nav */
             transform: translateY(-50%);
             width: 26px; height: 26px;
-            background: #F3F5F7;
+            background: #fff;
             border: 1px solid #DDE3E8;
             border-radius: 50%;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            z-index: 1003;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            z-index: 1010;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
             transition: background 0.15s;
             padding: 0;
             line-height: 1;
-            font-size: 13px;
+            font-size: 14px;
             color: #4A5568;
         }
-        #lnav-toggle:hover { background: #DDE3E8; }
+        #lnav-toggle:hover { background: #F3F5F7; }
 
         /* ===== Collapsed state ===== */
         #left-nav { transition: width 0.22s cubic-bezier(.4,0,.2,1); }
