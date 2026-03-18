@@ -86,10 +86,33 @@ services:
     networks:
       - gpswox_network
 
+  # ===== Traccar GPS Server =====
+  traccar:
+    image: traccar/traccar:latest
+    container_name: gpswox_traccar
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8082:8082"       # Interface web Traccar (admin)
+      - "12050:12050"     # GT06 — balises GPS (Coban, TK103, TK300...)
+      - "5027:5027"       # Teltonika
+      - "5055:5055"       # OsmAnd
+      - "5013:5013"       # H02
+      - "5023:5023"       # Concox
+    volumes:
+      - ./docker/traccar/traccar.xml:/opt/traccar/conf/traccar.xml:ro
+      - traccar_logs:/opt/traccar/logs
+    networks:
+      - gpswox_network
+
 volumes:
   mysql_data:
     driver: local
   redis_data:
+    driver: local
+  traccar_logs:
     driver: local
 
 networks:
