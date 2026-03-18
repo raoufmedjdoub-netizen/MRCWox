@@ -48,13 +48,13 @@
         .lnav__item {
             display: flex !important;
             align-items: center !important;
-            gap: 10px !important;
-            padding: 12px 12px !important;
+            gap: 12px !important;
+            padding: 12px 14px !important;
             margin: 1px 8px !important;
             border-radius: 10px !important;
             color: #4A5568 !important;
             text-decoration: none !important;
-            font-size: 0.8125rem !important;
+            font-size: 0.9375rem !important;
             font-weight: 400 !important;
             cursor: pointer !important;
             transition: background 0.15s !important;
@@ -74,10 +74,14 @@
             font-weight: 500 !important;
         }
         .lnav__icon {
-            width: 20px; flex-shrink: 0;
+            width: 24px; height: 24px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
         }
-        .lnav__icon .icon { display: block !important; margin: 0 !important; }
+        .lnav__icon .icon {
+            display: block !important; margin: 0 !important;
+            width: 22px !important; height: 22px !important;
+            background-size: 22px 22px !important;
+        }
         .lnav__badge {
             margin-left: auto; background: #1CB4D9; color: #fff;
             font-size: 0.65rem; border-radius: 10px; padding: 1px 6px;
@@ -169,23 +173,23 @@
         /* ===== Collapse toggle button ===== */
         #lnav-toggle {
             position: absolute;
-            top: 50%; right: -12px;
+            top: 50%; right: 10px;
             transform: translateY(-50%);
-            width: 24px; height: 24px;
-            background: #fff;
+            width: 26px; height: 26px;
+            background: #F3F5F7;
             border: 1px solid #DDE3E8;
             border-radius: 50%;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             z-index: 1003;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
             transition: background 0.15s;
             padding: 0;
             line-height: 1;
-            font-size: 10px;
-            color: #6B7485;
+            font-size: 13px;
+            color: #4A5568;
         }
-        #lnav-toggle:hover { background: #F3F5F7; }
+        #lnav-toggle:hover { background: #DDE3E8; }
 
         /* ===== Collapsed state ===== */
         #left-nav { transition: width 0.22s cubic-bezier(.4,0,.2,1); }
