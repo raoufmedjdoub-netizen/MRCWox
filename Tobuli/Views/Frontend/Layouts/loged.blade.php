@@ -48,13 +48,13 @@
         .lnav__item {
             display: flex !important;
             align-items: center !important;
-            gap: 12px !important;
-            padding: 12px 14px !important;
-            margin: 1px 8px !important;
+            gap: 8px !important;
+            padding: 8px !important;
+            margin: 0 !important;
             border-radius: 10px !important;
-            color: #4A5568 !important;
+            color: #30313D !important;
             text-decoration: none !important;
-            font-size: 0.9375rem !important;
+            font-size: 14px !important;
             font-weight: 400 !important;
             cursor: pointer !important;
             transition: background 0.15s !important;
@@ -69,18 +69,19 @@
             text-decoration: none !important;
         }
         .lnav__item.lnav--active {
-            background: linear-gradient(90deg, #4a5568 0%, #6B7485 100%) !important;
-            color: #fff !important;
-            font-weight: 500 !important;
+            background: linear-gradient(90deg, #6B7485 0%, #AAB3C0 100%) !important;
+            color: #30313D !important;
         }
+        .lnav__scroll { padding: 8px !important; }
+        .lnav__footer { padding: 4px 8px 8px !important; }
         .lnav__icon {
-            width: 24px; height: 24px; flex-shrink: 0;
+            width: 16px; height: 16px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
         }
         .lnav__icon .icon {
             display: block !important; margin: 0 !important;
-            width: 22px !important; height: 22px !important;
-            background-size: 22px 22px !important;
+            width: 16px !important; height: 16px !important;
+            background-size: 16px 16px !important;
         }
         .lnav__badge {
             margin-left: auto; background: #1CB4D9; color: #fff;
