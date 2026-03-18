@@ -5,7 +5,7 @@ echo "==> Démarrage GPSWOX..."
 
 # Attendre MySQL
 echo "==> Attente MySQL..."
-until php -r "new PDO('mysql:host=${DB_HOST};dbname=${DB_DATABASE}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null; do
+until php -r "new PDO('mysql:host=${DB_HOST};dbname=${web_database}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null; do
     echo "MySQL pas encore prêt, attente..."
     sleep 3
 done
