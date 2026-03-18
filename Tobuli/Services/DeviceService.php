@@ -76,7 +76,7 @@ class DeviceService
         }
 
         if (array_key_exists('device_icons_type', $data) && $data['device_icons_type'] == 'arrow') {
-            $data['icon_id'] = 0;
+            $data['icon_id'] = null;
         }
 
         if (array_key_exists('model_id', $data) && empty($data['model_id'])) {
