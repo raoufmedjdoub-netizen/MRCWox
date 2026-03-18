@@ -38,5 +38,9 @@ php artisan view:clear
 echo "==> Migrations en cours..."
 php artisan migrate --force --no-interaction
 
+# Repermissions après artisan (les commandes artisan créent des fichiers en root)
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 echo "==> Démarrage des services..."
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
