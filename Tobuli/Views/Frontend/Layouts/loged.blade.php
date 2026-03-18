@@ -4,153 +4,361 @@
     @include('Frontend.Layouts.partials.head')
     @yield('styles')
     <style>
-        /* ===== Modern UI Overrides ===== */
+        /* ===== Layout: Hide old header, shift content right for new nav sidebar ===== */
+        #header { height: 0 !important; min-height: 0 !important; overflow: hidden !important; padding: 0 !important; border: none !important; box-shadow: none !important; }
+        #header .navbar { display: none !important; }
 
-        /* Header */
-        #header {
-            background: #1e2235 !important;
-            border-bottom: none !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
-        }
-        #header .navbar { background: transparent !important; border: none !important; min-height: 52px; }
-        #header .navbar-brand { padding: 10px 15px; }
-        #header .navbar-brand img { max-height: 32px; }
-        #header .nav > li > a {
-            color: rgba(255,255,255,0.75) !important;
+        /* Shift sidebar, map and bottombar by nav sidebar width (224px) using transform */
+        #sidebar   { transform: translateX(224px) !important; top: 0 !important; }
+        #mapWrap   { transform: translateX(224px) !important; top: 0 !important; height: 100vh !important; }
+        #bottombar { transform: translateX(224px) !important; }
+
+        /* ===== New Left Navigation Sidebar ===== */
+        #left-nav {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: 224px;
+            background: #fff;
+            z-index: 1002;
+            border-right: 1px solid #DDE3E8;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             font-family: 'Inter', sans-serif;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            padding: 16px 14px;
-            transition: color 0.2s, background 0.2s;
         }
-        #header .nav > li > a:hover,
-        #header .nav > li.open > a {
-            color: #fff !important;
-            background: rgba(255,255,255,0.08) !important;
-        }
-        #header .dropdown-menu {
-            background: #1e2235 !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
-            min-width: 200px !important;
-            padding: 6px !important;
-            margin-top: 4px !important;
-        }
-        #header .dropdown-menu > li > a {
-            color: rgba(255,255,255,0.8) !important;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            border-radius: 7px !important;
-            padding: 8px 12px !important;
+        .lnav__logo {
+            padding: 1.125rem 1rem;
+            border-bottom: 1px solid #DDE3E8;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            min-height: 60px;
         }
-        #header .dropdown-menu > li > a:hover {
-            background: rgba(255,255,255,0.1) !important;
+        .lnav__logo img { max-height: 34px; max-width: 160px; object-fit: contain; }
+        .lnav__logo-text { font-size: 0.9375rem; font-weight: 700; color: #30313D; text-decoration: none; }
+        .lnav__scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: #DDE3E8 transparent;
+        }
+        .lnav__scroll::-webkit-scrollbar { width: 3px; }
+        .lnav__scroll::-webkit-scrollbar-thumb { background: #DDE3E8; border-radius: 2px; }
+        .lnav__item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 9px 12px !important;
+            margin: 1px 8px !important;
+            border-radius: 10px !important;
+            color: #30313D !important;
+            text-decoration: none !important;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: background 0.15s !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        .lnav__item:hover, .lnav__item:focus {
+            background: #F3F5F7 !important;
+            color: #30313D !important;
+            text-decoration: none !important;
+        }
+        .lnav__item.lnav--active {
+            background: linear-gradient(90deg, #6B7485 0%, #AAB3C0 100%) !important;
             color: #fff !important;
         }
-        #header .badge {
-            background: #1CB4D9 !important;
-            border-radius: 10px;
-            font-size: 0.7rem;
+        .lnav__icon {
+            width: 20px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .lnav__icon .icon { display: block !important; margin: 0 !important; }
+        .lnav__badge {
+            margin-left: auto; background: #1CB4D9; color: #fff;
+            font-size: 0.65rem; border-radius: 10px; padding: 1px 6px;
+            min-width: 18px; text-align: center; display: none;
+        }
+        .lnav__badge:not(:empty) { display: block; }
+        .lnav__sep {
+            height: 1px; background: #DDE3E8;
+            margin: 0.375rem 1rem;
+        }
+        .lnav__footer {
+            border-top: 1px solid #DDE3E8;
+            padding: 0.375rem 0;
+            flex-shrink: 0;
         }
 
-        /* Sidebar */
-        #sidebar {
-            background: #1e2235 !important;
-            border-right: none !important;
-            box-shadow: 2px 0 12px rgba(0,0,0,0.15) !important;
-        }
-        #sidebar .sidebar-content { background: transparent !important; }
-        #sidebar .nav-tabs {
-            background: transparent !important;
-            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-        }
+        /* ===== Content Sidebar (white theme) ===== */
+        #sidebar { background: #fff !important; border-right: 1px solid #DDE3E8 !important; box-shadow: none !important; }
+        #sidebar .sidebar-content { background: #fff !important; }
+        #sidebar .nav-tabs { background: #fff !important; border-bottom: 1px solid #DDE3E8 !important; }
         #sidebar .nav-tabs > li > a {
-            color: rgba(255,255,255,0.6) !important;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 12px 16px !important;
-            background: transparent !important;
+            color: #6b7280 !important;
+            font-family: 'Inter', sans-serif; font-size: 0.8125rem; font-weight: 500;
+            border: none !important; border-radius: 0 !important;
+            padding: 12px 16px !important; background: transparent !important;
             transition: color 0.2s;
         }
-        #sidebar .nav-tabs > li > a:hover {
-            color: rgba(255,255,255,0.9) !important;
-            background: rgba(255,255,255,0.06) !important;
-        }
+        #sidebar .nav-tabs > li > a:hover { color: #30313D !important; background: #F3F5F7 !important; }
         #sidebar .nav-tabs > li.active > a,
         #sidebar .nav-tabs > li.active > a:focus {
-            color: #fff !important;
-            background: transparent !important;
-            border-bottom: 2px solid #1CB4D9 !important;
-            font-weight: 600;
+            color: #30313D !important; background: transparent !important;
+            border-bottom: 2px solid #1CB4D9 !important; font-weight: 600;
         }
-        #sidebar .btn-collapse { background: #2a2f4a !important; border-radius: 0 8px 8px 0 !important; }
-        #sidebar .btn-collapse i { border-color: rgba(255,255,255,0.5) !important; }
-        #sidebar .btn-collapse:hover i { border-color: #fff !important; }
+        #sidebar .btn-collapse { background: #F3F5F7 !important; border-radius: 0 8px 8px 0 !important; border: 1px solid #DDE3E8 !important; }
+        #sidebar .btn-collapse i { border-color: #6b7280 !important; }
+        #sidebar .btn-collapse:hover { background: #DDE3E8 !important; }
 
         /* Sidebar search inputs */
-        #sidebar .form-control,
-        #sidebar input[type="text"],
-        #sidebar input[type="search"] {
-            background: rgba(255,255,255,0.07) !important;
-            border: 1px solid rgba(255,255,255,0.12) !important;
-            color: rgba(255,255,255,0.9) !important;
-            border-radius: 8px !important;
-            font-family: 'Inter', sans-serif;
+        #sidebar .form-control, #sidebar input[type="text"], #sidebar input[type="search"] {
+            background: #F9FAFB !important; border: 1.5px solid #DDE3E8 !important;
+            color: #30313D !important; border-radius: 8px !important; font-family: 'Inter', sans-serif;
         }
-        #sidebar .form-control::placeholder { color: rgba(255,255,255,0.35) !important; }
         #sidebar .form-control:focus {
-            border-color: #71a8e6 !important;
+            border-color: #71a8e6 !important; background: #fff !important;
             box-shadow: 0 0 0 3px rgba(113,168,230,0.18) !important;
-            background: rgba(255,255,255,0.1) !important;
-        }
-
-        /* Sidebar device list items */
-        #sidebar .list-group-item,
-        #sidebar .device-item,
-        #sidebar .obj {
-            background: transparent !important;
-            border-color: rgba(255,255,255,0.07) !important;
-            color: rgba(255,255,255,0.85) !important;
-        }
-        #sidebar .list-group-item:hover,
-        #sidebar .device-item:hover,
-        #sidebar .obj:hover {
-            background: rgba(255,255,255,0.06) !important;
-        }
-        #sidebar .list-group-item.active,
-        #sidebar .device-item.active,
-        #sidebar .obj.active {
-            background: rgba(113,168,230,0.15) !important;
-            border-left: 3px solid #71a8e6 !important;
         }
 
         /* Map controls */
         .map-controls .btn {
-            background: #fff !important;
-            border: 1px solid #DDE3E8 !important;
-            color: #30313D !important;
-            border-radius: 8px !important;
+            background: #fff !important; border: 1px solid #DDE3E8 !important;
+            color: #30313D !important; border-radius: 8px !important;
             box-shadow: 0 2px 6px rgba(60,66,87,0.1) !important;
         }
-        .map-controls .btn:hover { background: #F4F6F8 !important; }
+        .map-controls .btn:hover { background: #F3F5F7 !important; }
 
         /* Bottom bar */
-        #bottombar {
-            background: #fff !important;
-            border-top: 1px solid #DDE3E8 !important;
-            box-shadow: 0 -4px 12px rgba(60,66,87,0.08) !important;
-        }
+        #bottombar { background: #fff !important; border-top: 1px solid #DDE3E8 !important; box-shadow: 0 -4px 12px rgba(60,66,87,0.08) !important; }
     </style>
 </head>
 
 <body style="overflow: hidden;">
+
+{{-- ===== New Vertical Left Navigation ===== --}}
+<div id="left-nav">
+    {{-- Logo --}}
+    <div class="lnav__logo">
+        @if(Appearance::assetFileExists('logo'))
+            <a href="/" title="{{ Appearance::getSetting('server_name') }}">
+                <img src="{{ Appearance::getAssetFileUrl('logo') }}" alt="{{ Appearance::getSetting('server_name') }}">
+            </a>
+        @else
+            <a href="/" class="lnav__logo-text">{{ Appearance::getSetting('server_name') ?: config('app.name') }}</a>
+        @endif
+    </div>
+
+    {{-- Scrollable nav items --}}
+    <div class="lnav__scroll">
+
+        {{-- Objects / Trackers --}}
+        <a href="#objects_tab" class="lnav__item lnav--active" data-toggle="tab" onclick="app.openTab('objects_tab');">
+            <span class="lnav__icon"><span class="icon devices"></span></span>
+            <span>{!!trans('front.objects')!!}</span>
+        </a>
+
+        {{-- Events / History --}}
+        @if(Auth::user()->perm('events', 'view'))
+        <a href="#events_tab" class="lnav__item" data-toggle="tab" onclick="app.openTab('events_tab');">
+            <span class="lnav__icon"><span class="icon events"></span></span>
+            <span>{!!trans('front.events')!!}</span>
+        </a>
+        @endif
+
+        {{-- History --}}
+        @if(Auth::user()->perm('history', 'view'))
+        <a href="#history_tab" class="lnav__item" data-toggle="tab" onclick="app.openTab('history_tab');">
+            <span class="lnav__icon"><span class="icon history"></span></span>
+            <span>{!!trans('front.history')!!}</span>
+        </a>
+        @endif
+
+        <div class="lnav__sep"></div>
+
+        {{-- Alerts --}}
+        @if(Auth::User()->perm('alerts', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{!! route('alerts.index_modal') !!}" data-modal="alerts">
+            <span class="lnav__icon"><span class="icon alerts"></span></span>
+            <span>{!!trans('front.alerts')!!}</span>
+        </a>
+        @endif
+
+        {{-- Geofences --}}
+        @if(Auth::User()->perm('geofences', 'view'))
+        <a href="javascript:" class="lnav__item" onclick="app.geofences.list();app.openTab('geofencing_tab');">
+            <span class="lnav__icon"><span class="icon geofences"></span></span>
+            <span>{!!trans('front.geofencing')!!}</span>
+        </a>
+        @endif
+
+        {{-- Routes --}}
+        @if(Auth::User()->perm('routes', 'view'))
+        <a href="javascript:" class="lnav__item" onclick="app.routes.list();app.openTab('routes_tab');">
+            <span class="lnav__icon"><span class="icon routes"></span></span>
+            <span>{!!trans('front.routes')!!}</span>
+        </a>
+        @endif
+
+        {{-- POI --}}
+        @if(Auth::User()->perm('poi', 'view'))
+        <a href="javascript:" class="lnav__item" onclick="app.pois.list();app.openTab('pois_tab');">
+            <span class="lnav__icon"><span class="icon poi"></span></span>
+            <span>{!!trans('front.poi')!!}</span>
+        </a>
+        @endif
+
+        {{-- Reports --}}
+        @if(Auth::User()->perm('reports', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{!!route('reports.create')!!}" data-modal="reports_create">
+            <span class="lnav__icon"><span class="icon reports"></span></span>
+            <span>{!!trans('front.reports')!!}</span>
+        </a>
+        @endif
+
+        {{-- Dashboard --}}
+        <a href="{{ route('dashboard') }}" class="lnav__item" onclick="event.preventDefault(); app.dashboard.init();">
+            <span class="lnav__icon"><span class="icon dashboard"></span></span>
+            <span>{!!trans('front.dashboard')!!}</span>
+        </a>
+
+        <div class="lnav__sep"></div>
+
+        {{-- Chat --}}
+        @if(Auth::User()->perm('chat', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{!!route('chat.index')!!}" data-modal="chat">
+            <span class="lnav__icon"><span class="icon chat"></span></span>
+            <span>{!!trans('front.chat')!!}</span>
+            <span id="unread-msg-count" class="lnav__badge"></span>
+        </a>
+        @endif
+
+        {{-- Tasks --}}
+        @if(Auth::User()->perm('tasks', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('tasks.index') }}" data-modal="tasks">
+            <span class="lnav__icon"><span class="icon task"></span></span>
+            <span>{!!trans('front.tasks')!!}</span>
+        </a>
+        @endif
+
+        {{-- Maintenance --}}
+        @if(Auth::User()->perm('maintenance', 'view'))
+        <a href="{!!route('maintenance.index')!!}" class="lnav__item" target="_blank">
+            <span class="lnav__icon"><span class="icon services"></span></span>
+            <span>{!!trans('front.maintenance')!!}</span>
+        </a>
+        @endif
+
+        {{-- Expenses --}}
+        @if(Auth::User()->perm('device_expenses', 'view') && expensesTypesExist())
+        <a href="javascript:" class="lnav__item" data-url="{{ route('device_expenses.modal') }}" data-modal="devices_expenses">
+            <span class="lnav__icon"><span class="icon money"></span></span>
+            <span>{!!trans('front.expenses')!!}</span>
+        </a>
+        @endif
+
+        {{-- Sharing --}}
+        @if(Auth::User()->perm('sharing', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('sharing.index') }}" data-modal="sharing">
+            <span class="lnav__icon"><span class="icon sharing"></span></span>
+            <span>{!!trans('front.sharing')!!}</span>
+        </a>
+        @endif
+
+        {{-- Send Command --}}
+        @if(Auth::User()->perm('send_command', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('send_command.create') }}" data-modal="send_command">
+            <span class="lnav__icon"><span class="icon send-command"></span></span>
+            <span>{!!trans('front.send_command')!!}</span>
+        </a>
+        @endif
+
+        {{-- Camera --}}
+        @if(Auth::User()->perm('camera', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('device_media.create') }}" data-modal="camera_photos">
+            <span class="lnav__icon"><span class="icon camera"></span></span>
+            <span>{!!trans('front.camera')!!}</span>
+        </a>
+        @endif
+
+        {{-- Forwards --}}
+        @if(Auth::User()->perm('forwards', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('forwards.index') }}" data-modal="forwards">
+            <span class="lnav__icon"><span class="icon forwards"></span></span>
+            <span>{!! trans('front.forwards') !!}</span>
+        </a>
+        @endif
+
+        {{-- Call Actions --}}
+        @if(Auth::user()->perm('call_actions', 'view') && Auth::user()->perm('events', 'view'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('call_actions.index') }}" data-modal="call_actions">
+            <span class="lnav__icon"><span class="icon call_action"></span></span>
+            <span>{!! trans('front.call_actions') !!}</span>
+        </a>
+        @endif
+
+        {{-- Device Config --}}
+        @if(Auth::user()->able('configure_device'))
+        <a href="javascript:" class="lnav__item" data-url="{{ route('device_config.index') }}" data-modal="device_config">
+            <span class="lnav__icon"><span class="icon devices"></span></span>
+            <span>{!!trans('front.device_configuration')!!}</span>
+        </a>
+        @endif
+
+        {{-- External URL --}}
+        @if(config('addon.external_url') && settings('external_url.enabled') && Auth::user()->perm('external_url', 'view'))
+        <a href="{!! (new \Tobuli\Helpers\TextBuilder\UserExternalUrlBuilder())->build(settings('external_url.external_url'), Auth::user()) !!}" class="lnav__item" target="_blank">
+            <span class="lnav__icon"><span class="icon external-link"></span></span>
+            <span>{!!trans('front.external_url')!!}</span>
+        </a>
+        @endif
+
+        {{-- Admin panel link --}}
+        @if(isAdmin())
+        <div class="lnav__sep"></div>
+        <a href="{!!route('admin')!!}" class="lnav__item">
+            <span class="lnav__icon"><span class="icon admin"></span></span>
+            <span>{!!trans('global.admin')!!}</span>
+        </a>
+        @endif
+
+    </div>{{-- /.lnav__scroll --}}
+
+    {{-- Footer --}}
+    <div class="lnav__footer">
+        {{-- Setup --}}
+        <a href="javascript:" class="lnav__item" data-url="{!!route('my_account_settings.edit')!!}" data-modal="my_account_settings_edit">
+            <span class="lnav__icon"><span class="icon setup"></span></span>
+            <span>{!!trans('front.setup')!!}</span>
+        </a>
+        {{-- My Account --}}
+        <a href="javascript:" class="lnav__item" data-url="{{ route('my_account.edit') }}" data-modal="subscriptions_edit">
+            <span class="lnav__icon"><span class="icon account"></span></span>
+            <span>{!!trans('front.my_account')!!}</span>
+        </a>
+        {{-- Language --}}
+        <a href="javascript:" class="lnav__item" data-url="{{ route('languages.index') }}" data-modal="language-selection">
+            <span class="lnav__icon">
+                <img src="{{ Language::flag() }}" alt="Language" style="width:18px;height:12px;object-fit:cover;border-radius:2px;">
+            </span>
+            <span>{!!trans('global.language')!!}</span>
+        </a>
+        {{-- Ruler --}}
+        <a href="#objects_tab" class="lnav__item" data-toggle="tab" onclick="app.ruler();">
+            <span class="lnav__icon"><span class="icon ruler"></span></span>
+            <span>{!!trans('front.ruler')!!}</span>
+        </a>
+        {{-- Logout --}}
+        <a href="{!!route('logout')!!}" class="lnav__item" style="color: #e53e3e !important;">
+            <span class="lnav__icon"><span class="icon logout"></span></span>
+            <span>{!!trans('global.log_out')!!}</span>
+        </a>
+    </div>
+</div>
+{{-- ===== End Left Navigation ===== --}}
 
 @include('Frontend.Popups.index_banners_top')
 @include('Frontend.Layouts.partials.loading')
