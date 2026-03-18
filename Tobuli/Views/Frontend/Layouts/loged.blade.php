@@ -134,6 +134,61 @@
 
         /* Bottom bar */
         #bottombar { background: #fff !important; border-top: 1px solid #DDE3E8 !important; box-shadow: 0 -4px 12px rgba(60,66,87,0.08) !important; }
+
+        /* ===== Collapse toggle button ===== */
+        #lnav-toggle {
+            position: absolute;
+            top: 50%; right: -12px;
+            transform: translateY(-50%);
+            width: 24px; height: 24px;
+            background: #fff;
+            border: 1px solid #DDE3E8;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1003;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            transition: background 0.15s;
+            padding: 0;
+            line-height: 1;
+            font-size: 10px;
+            color: #6B7485;
+        }
+        #lnav-toggle:hover { background: #F3F5F7; }
+
+        /* ===== Collapsed state ===== */
+        #left-nav { transition: width 0.22s cubic-bezier(.4,0,.2,1); }
+        #left-nav.lnav--collapsed { width: 60px; }
+        #left-nav.lnav--collapsed .lnav__logo img { max-width: 32px; max-height: 32px; }
+        #left-nav.lnav--collapsed .lnav__logo-text { display: none; }
+        #left-nav.lnav--collapsed .lnav__item > span:not(.lnav__icon) { display: none !important; }
+        #left-nav.lnav--collapsed .lnav__badge { display: none !important; }
+        #left-nav.lnav--collapsed .lnav__item {
+            justify-content: center !important;
+            padding: 10px 0 !important;
+            margin: 1px 6px !important;
+        }
+        #left-nav.lnav--collapsed .lnav__logo {
+            justify-content: center;
+            padding: 1.125rem 0.5rem;
+        }
+        #left-nav.lnav--collapsed .lnav__sep { margin: 0.375rem 10px; }
+        #left-nav.lnav--collapsed .lnav__footer .lnav__item > span:not(.lnav__icon) { display: none !important; }
+
+        /* Tooltip on hover when collapsed */
+        #left-nav.lnav--collapsed .lnav__item { position: relative; }
+        #left-nav.lnav--collapsed .lnav__item[data-label]:hover::after {
+            content: attr(data-label);
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%; transform: translateY(-50%);
+            background: #30313D; color: #fff;
+            font-size: 0.75rem; font-weight: 500;
+            padding: 4px 10px; border-radius: 6px;
+            white-space: nowrap; pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
     </style>
 </head>
 
@@ -142,7 +197,7 @@
 {{-- ===== New Vertical Left Navigation ===== --}}
 <div id="left-nav">
     {{-- Logo --}}
-    <div class="lnav__logo">
+    <div class="lnav__logo" style="position:relative;">
         @if(Appearance::assetFileExists('logo'))
             <a href="/" title="{{ Appearance::getSetting('server_name') }}">
                 <img src="{{ Appearance::getAssetFileUrl('logo') }}" alt="{{ Appearance::getSetting('server_name') }}">
@@ -150,6 +205,7 @@
         @else
             <a href="/" class="lnav__logo-text">{{ Appearance::getSetting('server_name') ?: config('app.name') }}</a>
         @endif
+        <button id="lnav-toggle" title="Réduire / Agrandir">&#8249;</button>
     </div>
 
     {{-- Scrollable nav items --}}
@@ -559,5 +615,40 @@
 </div>
 
 @include('Frontend.Popups.index')
+
+<script type="text/javascript">
+(function() {
+    var NAV_FULL = 224;
+    var NAV_MINI = 60;
+    var nav  = document.getElementById('left-nav');
+    var btn  = document.getElementById('lnav-toggle');
+    var styleEl = document.createElement('style');
+    styleEl.id = 'lnav-shift';
+    document.head.appendChild(styleEl);
+
+    function applyShift(collapsed) {
+        var w = collapsed ? NAV_MINI : NAV_FULL;
+        styleEl.textContent =
+            '#sidebar   { transform: translateX(' + w + 'px) !important; }\n' +
+            '#mapWrap   { transform: translateX(' + w + 'px) !important; }\n' +
+            '#bottombar { transform: translateX(' + w + 'px) !important; }';
+        btn.innerHTML = collapsed ? '&#8250;' : '&#8249;';
+    }
+
+    function toggle() {
+        var collapsed = nav.classList.toggle('lnav--collapsed');
+        localStorage.setItem('lnav_collapsed', collapsed ? '1' : '0');
+        applyShift(collapsed);
+    }
+
+    /* Restore saved state */
+    if (localStorage.getItem('lnav_collapsed') === '1') {
+        nav.classList.add('lnav--collapsed');
+        applyShift(true);
+    }
+
+    if (btn) btn.addEventListener('click', toggle);
+})();
+</script>
 </body>
 </html>
