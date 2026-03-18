@@ -675,11 +675,8 @@ function parseXML($text)
 function parsePorts($ports = NULL)
 {
     if (empty($ports)) {
-        $curl = new \Curl;
-        $curl->follow_redirects = false;
-        $curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
-
-        $ports = json_decode($curl->get('http://hive.gpswox.com/ports/default'), TRUE);
+        // Disabled: outbound call to hive.gpswox.com blocked
+        return [];
     }
     $arr = [];
     foreach ($ports as $port)

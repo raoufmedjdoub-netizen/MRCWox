@@ -13,7 +13,7 @@ return array(
 	| which should receive your application's uncaught exceptions.
 	|
 	*/
-	'api_key' => env('BUGSNAG_API_KEY', '242da19dcd7a6600fbb528af86b1d70c'),
+	'api_key' => env('BUGSNAG_API_KEY', null), // Disabled: do not send errors to bugsnag.com
 
 	/*
 	|--------------------------------------------------------------------------

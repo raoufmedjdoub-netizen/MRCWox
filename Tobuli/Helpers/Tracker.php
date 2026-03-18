@@ -174,17 +174,8 @@ class Tracker {
      * @return bool
      */
     public function restartRemote() {
-        $curl = new \Curl;
-        $curl->follow_redirects = false;
-        $curl->options['CURLOPT_SSL_VERIFYPEER'] = false;
-
-        $response = $curl->post('http://hive.gpswox.com/servers/restart_traccar', [
-            'admin_user' => config('app.admin_user'),
-            'name' => config('app.server'),
-            'reason' => 'tracker'
-        ]);
-
-        return $response == 'OK' ? true : false;
+        // Disabled: outbound call to hive.gpswox.com blocked
+        return false;
     }
 
     /**

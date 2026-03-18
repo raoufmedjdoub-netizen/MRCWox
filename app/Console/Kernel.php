@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel {
         'App\Console\Commands\AutoCleanServerFilterCommand',
         'App\Console\Commands\BackupMysqlCommand',
         'App\Console\Commands\CheckAlertsCommand',
-        'App\Console\Commands\CheckServerCommand',
+        // 'App\Console\Commands\CheckServerCommand', // Disabled: sends server stats to hive.gpswox.com
         'App\Console\Commands\CheckServiceCommand',
         'App\Console\Commands\CheckServiceExpireCommand',
         'App\Console\Commands\CheckDeviceModelCacheCommand',

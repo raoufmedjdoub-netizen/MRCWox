@@ -66,18 +66,7 @@ class Hive
 
     protected function call($method, $endpoint, array $data = [])
     {
-        $this->error = null;
-
-        try {
-            $result = $this->client->request($method, self::URL . $this->key . "/" . $endpoint, [
-                'form_params' => $data
-            ]);
-        } catch (ClientException $e) {
-            $response = $e->getResponse();
-            $this->error = $response->getBody()->getContents();
-            $result = null;
-        }
-
-        return $result;
+        // Disabled: outbound calls to hive.gpswox.com are blocked
+        return null;
     }
 }

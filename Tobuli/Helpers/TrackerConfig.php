@@ -197,14 +197,8 @@ class TrackerConfig
 
     protected function loadDefaults()
     {
-        $json = file_get_contents('http://hive.gpswox.com/config.json');
-
-        $data = json_decode($json, true);
-
-        if (empty($data))
-            throw new \Exception('Default config empty');
-
-        return $this->merge($data);
+        // Disabled: outbound call to hive.gpswox.com blocked
+        return $this;
     }
 
     protected function loadXML()
