@@ -93,8 +93,18 @@
             flex-shrink: 0;
         }
 
-        /* ===== Content Sidebar (white theme) ===== */
-        #sidebar { background: #fff !important; border-right: 1px solid #DDE3E8 !important; box-shadow: none !important; }
+        /* ===== Content Sidebar — floating card ===== */
+        #sidebar {
+            background: #fff !important;
+            border: 1px solid #DDE3E8 !important;
+            border-right: none !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.13) !important;
+            top: 12px !important;
+            height: calc(100vh - 24px) !important;
+            margin-left: 12px !important;
+            overflow: hidden !important;
+        }
         #sidebar .sidebar-content { background: #fff !important; }
         #sidebar .nav-tabs { background: #fff !important; border-bottom: 1px solid #DDE3E8 !important; }
         #sidebar .nav-tabs > li > a {
