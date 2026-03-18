@@ -97,15 +97,35 @@
         #sidebar {
             background: #fff !important;
             border: 1px solid #DDE3E8 !important;
-            border-right: none !important;
             border-radius: 14px !important;
             box-shadow: 0 4px 24px rgba(0,0,0,0.13) !important;
             top: 12px !important;
-            height: calc(100vh - 24px) !important;
+            height: auto !important;
+            max-height: calc(100vh - 24px) !important;
             margin-left: 12px !important;
             overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
-        #sidebar .sidebar-content { background: #fff !important; }
+        #sidebar .sidebar-content {
+            background: #fff !important;
+            flex: 1 1 auto !important;
+            overflow-y: auto !important;
+            min-height: 0 !important;
+        }
+        /* Collapse button on the panel */
+        #sidebar .btn-collapse {
+            position: absolute !important;
+            top: 50% !important; right: -14px !important;
+            transform: translateY(-50%) !important;
+            width: 26px !important; height: 26px !important;
+            background: #fff !important;
+            border: 1px solid #DDE3E8 !important;
+            border-radius: 50% !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+            display: flex !important; align-items: center !important; justify-content: center !important;
+        }
+        #sidebar .btn-collapse i { border-color: #6B7485 !important; }
         #sidebar .nav-tabs { background: #fff !important; border-bottom: 1px solid #DDE3E8 !important; }
         #sidebar .nav-tabs > li > a {
             color: #6b7280 !important;
@@ -222,14 +242,14 @@
     <div class="lnav__scroll">
 
         {{-- Objects / Trackers --}}
-        <a href="#objects_tab" class="lnav__item lnav--active" data-toggle="tab" onclick="app.openTab('objects_tab');">
+        <a href="javascript:" class="lnav__item lnav--active" data-lnav-tab="objects_tab" onclick="lnavSwitchTab('objects_tab', this);">
             <span class="lnav__icon"><span class="icon devices"></span></span>
             <span>{!!trans('front.objects')!!}</span>
         </a>
 
-        {{-- Events / History --}}
+        {{-- Events --}}
         @if(Auth::user()->perm('events', 'view'))
-        <a href="#events_tab" class="lnav__item" data-toggle="tab" onclick="app.openTab('events_tab');">
+        <a href="javascript:" class="lnav__item" data-lnav-tab="events_tab" onclick="lnavSwitchTab('events_tab', this);">
             <span class="lnav__icon"><span class="icon events"></span></span>
             <span>{!!trans('front.events')!!}</span>
         </a>
@@ -237,7 +257,7 @@
 
         {{-- History --}}
         @if(Auth::user()->perm('history', 'view'))
-        <a href="#history_tab" class="lnav__item" data-toggle="tab" onclick="app.openTab('history_tab');">
+        <a href="javascript:" class="lnav__item" data-lnav-tab="history_tab" onclick="lnavSwitchTab('history_tab', this);">
             <span class="lnav__icon"><span class="icon history"></span></span>
             <span>{!!trans('front.history')!!}</span>
         </a>
@@ -627,6 +647,29 @@
 @include('Frontend.Popups.index')
 
 <script type="text/javascript">
+/* ===== Left nav tab switcher ===== */
+function lnavSwitchTab(tabId, el) {
+    /* 1. Update active state in left nav */
+    document.querySelectorAll('#left-nav .lnav__item').forEach(function(i) {
+        i.classList.remove('lnav--active');
+    });
+    if (el) el.classList.add('lnav--active');
+
+    /* 2. Click the real Bootstrap tab inside #sidebar */
+    var tabLink = document.querySelector('#sidebar [href="#' + tabId + '"]');
+    if (tabLink) {
+        tabLink.click();
+    } else if (typeof app !== 'undefined' && app.openTab) {
+        app.openTab(tabId);
+    }
+
+    /* 3. Expand sidebar if GPSWOX collapsed it */
+    var sidebar = document.getElementById('sidebar');
+    if (sidebar && sidebar.classList.contains('hidden')) {
+        if (typeof app !== 'undefined') app.changeSetting('toggleSidebar');
+    }
+}
+
 (function() {
     var NAV_FULL = 224;
     var NAV_MINI = 60;
