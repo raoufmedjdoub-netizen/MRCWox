@@ -5,7 +5,7 @@ ARG user=www-data
 ARG uid=1000
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     libpng-dev \
@@ -19,13 +19,13 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nginx \
     supervisor \
-    redis-tools \
     ffmpeg \
-    wkhtmltopdf \
     fonts-liberation \
     libxrender1 \
     libxext6 \
     libfontconfig1 \
+    xfonts-base \
+    xfonts-75dpi \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
