@@ -3,7 +3,7 @@
     {!!Form::select('device_icons_type', $icons_type, $item->icon->type ?? null, ['class' => 'form-control'])!!}
 </div>
 
-{!! Form::hidden('icon_id', 0) !!}
+{!! Form::hidden('icon_id', '') !!}
 @foreach($device_icons_grouped as $group => $icons)
     <div data-disablable="#device_icons_type;hide-disable;{{ $group }}">
         <div class="form-group">
