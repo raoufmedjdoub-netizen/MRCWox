@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libwebp-dev \
+    libicu-dev \
     zip \
     unzip \
     nginx \
@@ -37,6 +38,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-configure intl \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
@@ -46,7 +48,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
         bcmath \
         gd \
         zip \
-        xml \
         opcache \
         intl \
         sockets
