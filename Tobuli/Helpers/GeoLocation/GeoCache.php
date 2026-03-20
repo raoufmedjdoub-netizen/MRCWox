@@ -52,6 +52,10 @@ class GeoCache
 
     public function get($method, $parameters, $callback)
     {
+        if (!$this->drive) {
+            return $callback();
+        }
+
         return $this->drive->remember(
             $this->key($method, $parameters),
             $this->expiration,
@@ -61,6 +65,8 @@ class GeoCache
 
     public function flush()
     {
-        $this->drive->flush();
+        if ($this->drive) {
+            $this->drive->flush();
+        }
     }
 }
