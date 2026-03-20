@@ -21,7 +21,9 @@ return [
     "server.ignoreCustomCommand" => "false",
     "processing.remoteAddress.enable" => "true",
     "database.driver" => "com.mysql.jdbc.Driver",
-    "database.url" => "jdbc:mysql://127.0.0.1:3306/gpswox_traccar",
+    "database.url" => "jdbc:mysql://" . env('DB_HOST', '127.0.0.1') . ":" . env('DB_PORT', '3306') . "/gpswox_traccar?useSSL=false&allowPublicKeyRetrieval=true",
+    "database.user" => env('DB_USERNAME', 'root'),
+    "database.password" => env('DB_PASSWORD', ''),
     "database.registerUnknown" => "true",
     "database.registerUnknown.defaultGroupId" => "0",
     "database.ignoreUnknown" => "false"

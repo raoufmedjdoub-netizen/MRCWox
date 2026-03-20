@@ -30,6 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Java JRE (required for GPSWOX tracker server)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    default-jre-headless \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install Node.js 18
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
@@ -81,6 +87,10 @@ RUN npm install --prefix socket
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
+
+# Setup GPSWOX tracker server
+RUN mkdir -p /opt/traccar/conf /opt/traccar/logs /opt/traccar/web /opt/traccar/bin
+COPY docker/traccar/tracker-server.jar /opt/traccar/tracker-server.jar
 
 # Copy configs
 COPY docker/nginx/default.conf /etc/nginx/sites-available/default

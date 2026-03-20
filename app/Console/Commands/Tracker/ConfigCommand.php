@@ -38,11 +38,17 @@ class ConfigCommand extends Command {
         $tracker = new Tracker();
 
         try {
-            $tracker->config()->update();
+            $tracker->config()->generate();
 
             $this->line('Ok');
         } catch (\Exception $exception) {
-            $this->error($exception->getMessage());
+            // Fallback: try without hive.gpswox.com defaults
+            try {
+                $tracker->config()->generate();
+                $this->line('Ok (without remote defaults)');
+            } catch (\Exception $e) {
+                $this->error($e->getMessage());
+            }
         }
 	}
 
