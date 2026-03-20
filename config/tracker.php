@@ -1,6 +1,6 @@
 <?php
 return [
-    "web.url"  => env('TRACKER_WEB_URL', env('APP_URL', 'http://localhost')),
+    "web.url"  => "http://localhost",
     "web.enable" => "true",
     "web.type" => "api",
     "web.port" => env('TRACKER_WEB_PORT', 8082),
