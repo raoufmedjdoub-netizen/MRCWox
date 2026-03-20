@@ -38,6 +38,10 @@ php artisan view:clear
 echo "==> Migrations en cours..."
 php artisan migrate --force --no-interaction
 
+# Seed device_icons si la table est vide (requis pour la validation icon_id)
+echo "==> Vérification device_icons..."
+php artisan db:seed --class=DeviceIconsTableSeeder --force --no-interaction 2>/dev/null || true
+
 # Repermissions après artisan (les commandes artisan créent des fichiers en root)
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache

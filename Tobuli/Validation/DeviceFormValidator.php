@@ -13,7 +13,7 @@ class DeviceFormValidator extends Validator
         'create' => [
             'imei'                => 'required|imei|unique:devices,imei,%s',
             'name'                => 'required|string|between:1,255',
-            'icon_id'             => 'exists:device_icons,id',
+            'icon_id'             => 'nullable|exists:device_icons,id',
             'model_id'            => 'exists:device_models,id',
             'fuel_quantity'       => 'numeric',
             'fuel_price'          => 'numeric',
@@ -39,7 +39,7 @@ class DeviceFormValidator extends Validator
         'update' => [
             'imei'                => 'sometimes|required|imei|unique:devices,imei,%s',
             'name'                => 'sometimes|required|string|between:1,255',
-            'icon_id'             => 'exists:device_icons,id',
+            'icon_id'             => 'nullable|exists:device_icons,id',
             'model_id'            => 'exists:device_models,id',
             'fuel_quantity'       => 'numeric',
             'fuel_price'          => 'numeric',
