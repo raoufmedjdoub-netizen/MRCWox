@@ -88,9 +88,9 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Setup GPSWOX tracker server
-RUN mkdir -p /opt/traccar/conf /opt/traccar/logs /opt/traccar/web /opt/traccar/bin
-COPY docker/traccar/tracker-server.jar /opt/traccar/tracker-server.jar
+# Setup Traccar standard server
+COPY docker/traccar /opt/traccar
+RUN mkdir -p /opt/traccar/data /opt/traccar/logs
 
 # Copy configs
 COPY docker/nginx/default.conf /etc/nginx/sites-available/default

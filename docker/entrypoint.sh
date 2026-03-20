@@ -80,10 +80,24 @@ php artisan db:seed --class=DeviceIconsTableSeeder --force --no-interaction 2>/d
 echo "==> Vérification tracker_ports..."
 php artisan db:seed --class=TrackerPortsSeeder --force --no-interaction 2>/dev/null || true
 
-# Générer la config XML du tracker server
-echo "==> Génération config tracker..."
-mkdir -p /opt/traccar/conf /opt/traccar/logs /opt/traccar/web /opt/traccar/bin
-php artisan tracker:config 2>/dev/null || true
+# Générer la config XML du Traccar standard
+echo "==> Génération config Traccar..."
+mkdir -p /opt/traccar/data /opt/traccar/logs
+cat > /opt/traccar/conf/traccar.xml <<XMLEOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM 'http://java.sun.com/dtd/properties.dtd'>
+<properties>
+    <entry key='database.driver'>com.mysql.cj.jdbc.Driver</entry>
+    <entry key='database.url'>jdbc:mysql://${DB_HOST:-mysql}:${DB_PORT:-3306}/gpswox_traccar?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC</entry>
+    <entry key='database.user'>${DB_USERNAME:-root}</entry>
+    <entry key='database.password'>${DB_PASSWORD}</entry>
+    <entry key='teltonika.port'>12050</entry>
+    <entry key='server.statistics'>false</entry>
+    <entry key='logger.enable'>true</entry>
+    <entry key='logger.level'>info</entry>
+    <entry key='logger.file'>/opt/traccar/logs/tracker-server.log</entry>
+</properties>
+XMLEOF
 chown -R www-data:www-data /opt/traccar
 
 # Repermissions après artisan (les commandes artisan créent des fichiers en root)
