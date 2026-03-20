@@ -12,6 +12,8 @@ services:
     expose:
       - "80"
       - "9001"
+    ports:
+      - "12050:12050"
     volumes:
       - ./storage:/var/www/html/storage
       - ./docker/ssl:/var/www/html/ssl

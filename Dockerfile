@@ -101,6 +101,6 @@ COPY docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 80 9001
+EXPOSE 80 9001 12050
 
 ENTRYPOINT ["/entrypoint.sh"]
