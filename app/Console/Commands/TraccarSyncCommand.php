@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class TraccarSyncCommand extends Command
 {
-    protected $signature = 'traccar:sync {--interval=2 : Poll interval in seconds}';
+    protected $signature = 'tracker:sync {--interval=2 : Poll interval in seconds}';
     protected $description = 'Sync positions from Traccar standard (tc_positions) to GPSWOX Redis pipeline';
 
     protected PositionsStack $stack;
