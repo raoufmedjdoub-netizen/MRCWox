@@ -68,6 +68,18 @@ try {
 }
 " 2>/dev/null || true
 
+# Installer les clés Passport (OAuth2)
+if [ -f /var/www/html/files/oauth-private.key ] && [ ! -f /var/www/html/storage/oauth-private.key ]; then
+    echo "==> Copie des clés Passport depuis files/..."
+    cp /var/www/html/files/oauth-private.key /var/www/html/storage/oauth-private.key
+    cp /var/www/html/files/oauth-public.key /var/www/html/storage/oauth-public.key
+elif [ ! -f /var/www/html/storage/oauth-private.key ]; then
+    echo "==> Génération des clés Passport..."
+    php artisan passport:keys --force --no-interaction
+fi
+chown www-data:www-data /var/www/html/storage/oauth-*.key 2>/dev/null || true
+chmod 600 /var/www/html/storage/oauth-*.key 2>/dev/null || true
+
 # Migrations
 echo "==> Migrations en cours..."
 php artisan migrate --force --no-interaction
