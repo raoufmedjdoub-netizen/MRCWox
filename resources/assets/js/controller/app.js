@@ -288,10 +288,7 @@ var app = {
 
     initSocket: function() {
 
-        if (location.protocol == 'http:')
-            this.socket = io('http://'+document.domain+':'+this.socket_port);
-        else
-            this.socket = io('https://'+document.domain+':'+this.socket_ssl_port);
+        this.socket = io(location.protocol+'//'+document.domain, {path: '/socket.io/'});
 
         this.socket.on('connect', function(){
             app.socket.emit('join', app.channels.userChannel);
