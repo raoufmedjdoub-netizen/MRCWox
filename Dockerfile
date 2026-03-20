@@ -83,14 +83,16 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 # Install Node socket dependencies
 RUN npm install --prefix socket
 
+# Setup Traccar standard server (move out of /var/www/html before chown)
+RUN cp -r /var/www/html/docker/traccar /opt/traccar \
+    && rm -rf /var/www/html/docker/traccar \
+    && mkdir -p /opt/traccar/data /opt/traccar/logs \
+    && chown -R www-data:www-data /opt/traccar
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
-
-# Setup Traccar standard server
-COPY docker/traccar /opt/traccar
-RUN mkdir -p /opt/traccar/data /opt/traccar/logs
 
 # Copy configs
 COPY docker/nginx/default.conf /etc/nginx/sites-available/default
