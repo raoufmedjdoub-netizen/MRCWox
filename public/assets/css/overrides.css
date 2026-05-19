@@ -96,3 +96,140 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+
+/* ---------------------------------------------------------------------------
+ * Polish pass — header icons, marker tooltip, device widget, add buttons.
+ * ------------------------------------------------------------------------- */
+
+/* Header icons (top-right): bump weight and add hover affordance */
+.main-navbar .navbar-nav > li > a,
+.navbar.main-navbar .navbar-nav > li > a {
+  border-radius: 6px;
+  transition: background-color .15s ease, color .15s ease;
+  margin: 0 2px;
+}
+.main-navbar .navbar-nav > li > a > .icon,
+.navbar.main-navbar .navbar-nav > li > a > .icon {
+  color: var(--gpswox-text-muted) !important;
+  font-size: 17px;
+}
+.main-navbar .navbar-nav > li > a:hover,
+.main-navbar .navbar-nav > li > a:focus,
+.main-navbar .navbar-nav > li.open > a {
+  background-color: #F3F4F6 !important;
+}
+.main-navbar .navbar-nav > li > a:hover > .icon,
+.main-navbar .navbar-nav > li > a:focus > .icon,
+.main-navbar .navbar-nav > li.open > a > .icon {
+  color: var(--gpswox-text) !important;
+}
+.main-navbar .navbar-nav > li > a > .badge {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+}
+
+/* Leaflet marker tooltip + popup — modern card style */
+.leaflet-tooltip {
+  font-family: "Inter", sans-serif !important;
+  background: #ffffff !important;
+  border: 1px solid var(--gpswox-border) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px -2px rgba(17, 24, 39, 0.10),
+              0 2px 4px -2px rgba(17, 24, 39, 0.05) !important;
+  padding: 5px 10px !important;
+  color: var(--gpswox-text) !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  white-space: nowrap;
+}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  border-top-color: var(--gpswox-border) !important;
+  border-bottom-color: var(--gpswox-border) !important;
+  border-left-color: var(--gpswox-border) !important;
+  border-right-color: var(--gpswox-border) !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px -4px rgba(17, 24, 39, 0.12),
+              0 4px 8px -4px rgba(17, 24, 39, 0.06) !important;
+  border: 1px solid var(--gpswox-border-subtle) !important;
+}
+.leaflet-popup-content {
+  font-family: "Inter", sans-serif !important;
+  color: var(--gpswox-text);
+}
+.leaflet-popup-tip {
+  box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
+}
+
+/* Device widget (bottom panel) — switch info table to 2-column grid */
+.widget.widget-device .widget-body table,
+.widget.widget-device .widget-body table tbody {
+  display: block;
+  margin-bottom: 0;
+}
+.widget.widget-device .widget-body table tbody {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+  row-gap: 2px;
+}
+.widget.widget-device .widget-body table tr {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  align-items: baseline;
+  border: 0;
+}
+.widget.widget-device .widget-body table tr > td {
+  display: block;
+  width: auto !important;
+  max-width: none !important;
+  padding: 4px 0 !important;
+  line-height: 20px !important;
+  border: 0 !important;
+  font-size: 13px;
+}
+.widget.widget-device .widget-body table tr > td:first-child {
+  color: var(--gpswox-text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.widget.widget-device .widget-body table tr > td:last-child {
+  color: var(--gpswox-text);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Unify "+ add" buttons across the app — primary blue style everywhere */
+.btn.btn-action,
+.widget-empty .btn.btn-default,
+.action-block .btn.btn-action {
+  background: var(--gpswox-focus) !important;
+  border: 1px solid var(--gpswox-focus) !important;
+  color: #ffffff !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 7px 14px;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.btn.btn-action:hover,
+.btn.btn-action:focus,
+.widget-empty .btn.btn-default:hover,
+.widget-empty .btn.btn-default:focus,
+.action-block .btn.btn-action:hover,
+.action-block .btn.btn-action:focus {
+  background: #1D4ED8 !important;
+  border-color: #1D4ED8 !important;
+  color: #ffffff !important;
+}
+.btn.btn-action > .icon,
+.widget-empty .btn.btn-default > .icon {
+  color: #ffffff !important;
+}
