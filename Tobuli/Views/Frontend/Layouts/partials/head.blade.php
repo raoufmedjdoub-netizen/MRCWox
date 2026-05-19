@@ -10,6 +10,9 @@
 <meta name="description" content="{{ Appearance::getSetting('server_description') }}">
 <link rel="shortcut icon" href="{{ Appearance::getAssetFileUrl('favicon') }}" type="image/x-icon">
 <link rel="stylesheet" href="{{ asset_resource('assets/css/'.Appearance::getSetting('template_color').'.css') }}">
+@if (str_starts_with(Appearance::getSetting('template_color'), 'light-'))
+    <link rel="stylesheet" href="{{ asset_resource('assets/css/overrides.css') }}">
+@endif
 @if (Language::dir() == 'rtl')
     <link rel="stylesheet" href="{{ asset_resource('assets/css/rtl.css') }}">
 @endif
