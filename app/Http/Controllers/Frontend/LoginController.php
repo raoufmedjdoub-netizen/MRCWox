@@ -79,6 +79,12 @@ class LoginController extends Controller
         $password = Request::only('password');
         $identifier = Request::get('identifier');
 
+        $candidateUser = $this->findUserForLockoutCheck($authManager, $identifier);
+
+        if ($candidateUser && $candidateUser->isLockedOut()) {
+            return Redirect::route('login')->withInput()->with('message', trans('front.login_failed'));
+        }
+
         foreach ($authManager->getEnabledDefaultInternalAuths() as $auth) {
             if (!Auth::attempt($password + [$auth->getUserColumn() => $identifier], $remember_me)) {
                 continue;
@@ -96,6 +102,8 @@ class LoginController extends Controller
                 return Redirect::route('login')->withInput()->with('message', trans('front.login_method_unavailable'));
             }
 
+            Auth::user()->resetFailedLogins();
+
             $url = session()->pull('login_redirect', function() {
                 if ($route = config('server.login_redirect_route'))
                     return route($route);
@@ -109,7 +117,28 @@ class LoginController extends Controller
             return Redirect::to($url);
         }
 
+        if ($candidateUser) {
+            $candidateUser->registerFailedLogin();
+        }
+
         return Redirect::route('login')->withInput()->with('message', trans('front.login_failed'));
+    }
+
+    private function findUserForLockoutCheck(AuthManager $authManager, ?string $identifier): ?User
+    {
+        if (empty($identifier)) {
+            return null;
+        }
+
+        foreach ($authManager->getEnabledDefaultInternalAuths() as $auth) {
+            $column = $auth->getUserColumn();
+            $user = User::where($column, $identifier)->first();
+            if ($user) {
+                return $user;
+            }
+        }
+
+        return null;
     }
 
     /**

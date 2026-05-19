@@ -4,8 +4,10 @@ return [
 
     /*
      * Enable / disable Google2FA.
+     * Default: true — 2FA is mandatory for every user (security hardening).
+     * Override with OTP_ENABLED=false in .env to disable globally.
      */
-    'enabled' => env('OTP_ENABLED', false),
+    'enabled' => env('OTP_ENABLED', true),
 
     /*
      * Lifetime in minutes.

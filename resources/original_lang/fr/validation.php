@@ -573,6 +573,7 @@ return array(
     'uppercase_character' => 'Caractère majuscule requis',
     'lowercase_character' => 'Caractère minuscule requis',
     'digit_character' => 'Caractère numérique requis',
+    'password_compromised' => 'Ce mot de passe a été divulgué dans une fuite de données publique et ne peut pas être utilisé',
     'wrong_captcha' => 'Mauvais CAPTCHA',
     'dimensions' => 'Le :attribute a des dimensions d\'image non valides.',
     'mimetypes' => 'Le :attribute doit être un fichier de type : :values .',

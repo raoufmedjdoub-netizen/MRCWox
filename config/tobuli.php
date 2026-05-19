@@ -163,15 +163,16 @@ return [
     'frontend_curl_password' => env('FRONTEND_PASSWORD', ''),
 
     'password' => [
-        'min_length' => 8,
-        'length' => 12,
+        'min_length' => 10,
+        'length' => 14,
         'includes' => [
             'lowercase',
             'uppercase',
             'numbers',
-            //'specials'
+            'specials',
         ],
         'change_required_current' => false,
+        'check_hibp' => env('PASSWORD_CHECK_HIBP', true),
     ],
 
     'plans' => [],

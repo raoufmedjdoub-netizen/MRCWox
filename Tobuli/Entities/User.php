@@ -1016,4 +1016,49 @@ class User extends AbstractEntity implements
     {
         return $this->is2faSetup() && $this->google2fa_secret;
     }
+
+    public function isLockedOut(): bool
+    {
+        if ($this->isGod()) {
+            return false;
+        }
+
+        if (empty($this->locked_until)) {
+            return false;
+        }
+
+        return Carbon::parse($this->locked_until)->isFuture();
+    }
+
+    public function registerFailedLogin(): void
+    {
+        if ($this->isGod()) {
+            return;
+        }
+
+        $maxAttempts = (int) config('server.lockout.max_attempts', 5);
+        $durationMinutes = (int) config('server.lockout.duration_minutes', 15);
+
+        $attempts = (int) $this->failed_login_attempts + 1;
+        $update = ['failed_login_attempts' => $attempts];
+
+        if ($attempts >= $maxAttempts) {
+            $update['locked_until'] = Carbon::now()->addMinutes($durationMinutes);
+            $update['failed_login_attempts'] = 0;
+        }
+
+        DB::table('users')->where('id', $this->id)->update($update);
+    }
+
+    public function resetFailedLogins(): void
+    {
+        if (empty($this->failed_login_attempts) && empty($this->locked_until)) {
+            return;
+        }
+
+        DB::table('users')->where('id', $this->id)->update([
+            'failed_login_attempts' => 0,
+            'locked_until' => null,
+        ]);
+    }
 }

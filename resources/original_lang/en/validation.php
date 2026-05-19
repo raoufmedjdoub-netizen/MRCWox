@@ -573,6 +573,7 @@ return array(
     'uppercase_character' => 'Uppercase character required',
     'lowercase_character' => 'Lowercase character required',
     'digit_character' => 'Digit character required',
+    'password_compromised' => 'This password has appeared in a public data breach and cannot be used',
     'wrong_captcha' => 'Wrong CAPTCHA',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',

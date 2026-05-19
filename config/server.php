@@ -17,4 +17,9 @@ return [
             'password_reset' => env('THROTTLE_WEB_PASSWORD_RESET', '60,1'),
         ]
     ],
+
+    'lockout' => [
+        'max_attempts' => env('LOGIN_LOCKOUT_MAX_ATTEMPTS', 5),
+        'duration_minutes' => env('LOGIN_LOCKOUT_DURATION_MINUTES', 15),
+    ],
 ];

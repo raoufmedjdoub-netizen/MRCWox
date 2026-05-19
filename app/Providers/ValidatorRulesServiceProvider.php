@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator as IlluminateValidator;
 use Tobuli\Helpers\CssPredefinedColorsUtil;
+use Tobuli\Helpers\HibpChecker;
 use Tobuli\Helpers\ParsedCurl;
 use Tobuli\Sensors\Extractions\Formula;
 use Validator;
@@ -204,6 +205,10 @@ class ValidatorRulesServiceProvider extends ServiceProvider
                     ]));
                 }
 
+                if (!empty($config['check_hibp']) && HibpChecker::isCompromised($value)) {
+                    $failedRules[] = strtolower(trans('validation.password_compromised'));
+                }
+
                 return $message . ': ' . implode(', ', $failedRules);
             });
 
@@ -213,7 +218,15 @@ class ValidatorRulesServiceProvider extends ServiceProvider
                 }
             }
 
-            return $lengthCheck($config, $value);
+            if (!$lengthCheck($config, $value)) {
+                return false;
+            }
+
+            if (!empty($config['check_hibp']) && HibpChecker::isCompromised($value)) {
+                return false;
+            }
+
+            return true;
         });
 
         Validator::extend('phone', function ($attribute, $value, $parameters, $validator) {
