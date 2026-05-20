@@ -135,8 +135,15 @@ h1, h2, h3, h4, h5, h6 {
   border: 0 !important;
 }
 
-/* Sidebar docks flush against the navbar's bottom edge */
+/* Sidebar docks flush against the navbar's bottom edge.
+ * Default GPSWOX reserves $sidebar-top-space (100px) from the top,
+ * which leaves a visible map strip between the navbar and the
+ * sidebar tabs. Pin the sidebar to top: $navbar-height instead. */
 #sidebar.sidebar.left {
+  top: 50px !important;
+  bottom: 0 !important;
+  height: auto !important;
+  max-height: none !important;
   border-right: 1px solid var(--gpswox-border-subtle);
 }
 #sidebar.sidebar.left .sidebar-content {
