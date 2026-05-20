@@ -166,22 +166,42 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
 }
 
-/* Device widget (bottom panel) — typography only.
- * No grid/layout changes: GPSWOX truncates the address on the JS side
- * (data-preview="true"), so a 2-column grid just creates empty space
- * on the right while the address is still truncated. The eye icon (👁)
- * lets the user preview the full address — that's the intended UX. */
+/* Device widget (bottom panel) — typography + allow values to wrap.
+ * Original GPSWOX behavior: `max-width: 1px` + `text-overflow: ellipsis`
+ * + `white-space: nowrap` on every TD = aggressive truncation that hides
+ * the full address ("AADL 5000 lgts K..." style). We undo those 3
+ * constraints on the value column so long content wraps onto multiple
+ * lines naturally. Labels still stay on one line. */
+.widget.widget-device .widget-body table {
+  table-layout: auto;
+  width: 100% !important;
+  max-width: 380px;
+}
 .widget.widget-device .widget-body table tr > td {
   font-size: 13px;
-  line-height: 22px;
+  line-height: 20px;
+  padding: 5px 4px;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  max-width: none !important;
+  vertical-align: top;
 }
 .widget.widget-device .widget-body table tr > td:first-child {
   color: var(--gpswox-text-muted);
   font-weight: 500;
+  white-space: nowrap !important;
+  width: 1% !important;
+  padding-right: 10px !important;
 }
 .widget.widget-device .widget-body table tr > td:last-child {
   color: var(--gpswox-text);
   font-weight: 500;
+  white-space: normal !important;
+  word-break: break-word;
+  width: 100% !important;
+}
+.widget.widget-device .widget-body table tr > td .pull-right {
+  margin-left: 6px;
 }
 
 /* Unify "+ add" buttons across the app — primary blue style everywhere */
