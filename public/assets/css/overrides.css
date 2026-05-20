@@ -101,17 +101,17 @@ h1, h2, h3, h4, h5, h6 {
  * Polish pass — header icons, marker tooltip, device widget, add buttons.
  * ------------------------------------------------------------------------- */
 
-/* Top navbar: continuous solid bar across full width.
- * The original GPSWOX layout leaves the .navbar parent transparent and
- * only paints .navbar-brand + .navbar-nav with a white bg. The visible
- * gap in the middle (where the map shows through) is by design.
- * Fix: put the white bg on the .navbar parent so it spans full width,
- * and DO NOT touch the brand/nav backgrounds (those are positioned over
- * the map). */
+/* Top navbar: continuous solid bar across full width, pinned flush to
+ * the top of the viewport with no gap. */
+html, body { margin: 0 !important; padding: 0 !important; }
+
 #header.folded {
   background-color: #ffffff;
   border-bottom: 1px solid var(--gpswox-border-subtle);
   box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 50px;
 }
 #header.folded::before {
   display: none !important;
@@ -119,8 +119,16 @@ h1, h2, h3, h4, h5, h6 {
 #header.folded .navbar.main-navbar {
   background-color: #ffffff !important;
   border: 0 !important;
-  margin-bottom: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 50px;
 }
+
+/* Empty .banner elements from Popups/index_banners_top.blade.php
+ * can still take vertical space even when there's nothing to show.
+ * Collapse them so they don't push the header down. */
+.banner:empty { display: none !important; }
 #header.folded .navbar.main-navbar .navbar-brand,
 #header.folded .navbar.main-navbar .navbar-nav {
   border-bottom: 0 !important;
