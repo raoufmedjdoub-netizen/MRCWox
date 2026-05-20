@@ -101,12 +101,13 @@ h1, h2, h3, h4, h5, h6 {
  * Polish pass — header icons, marker tooltip, device widget, add buttons.
  * ------------------------------------------------------------------------- */
 
-/* Top navbar: make it a single continuous bar across the full width.
- * Original GPSWOX design leaves the navbar background transparent in
- * the middle so the map shows through, then puts a solid color only
- * behind the brand (left) and the nav items (right). That creates the
- * visible gap. Forcing a white bg on the whole #header gives a clean
- * continuous bar that the sidebar can dock against. */
+/* Top navbar: continuous solid bar across full width.
+ * The original GPSWOX layout leaves the .navbar parent transparent and
+ * only paints .navbar-brand + .navbar-nav with a white bg. The visible
+ * gap in the middle (where the map shows through) is by design.
+ * Fix: put the white bg on the .navbar parent so it spans full width,
+ * and DO NOT touch the brand/nav backgrounds (those are positioned over
+ * the map). */
 #header.folded {
   background-color: #ffffff;
   border-bottom: 1px solid var(--gpswox-border-subtle);
@@ -116,17 +117,16 @@ h1, h2, h3, h4, h5, h6 {
   display: none !important;
 }
 #header.folded .navbar.main-navbar {
-  background-color: transparent !important;
+  background-color: #ffffff !important;
   border: 0 !important;
   margin-bottom: 0 !important;
 }
 #header.folded .navbar.main-navbar .navbar-brand,
-#header.folded .navbar.main-navbar .navbar-nav,
-#header.folded .navbar.main-navbar .navbar-collapse {
-  background-color: transparent !important;
-  border: 0 !important;
+#header.folded .navbar.main-navbar .navbar-nav {
+  border-bottom: 0 !important;
 }
-/* Kill the angled "tab" accents Bootstrap 3 GPSWOX puts after the brand */
+/* Kill the diagonal/triangle accents that Bootstrap 3 GPSWOX puts
+ * around the brand and nav (they only made sense with the "split" navbar) */
 #header.folded .navbar.main-navbar .navbar-brand::before,
 #header.folded .navbar.main-navbar .navbar-brand::after,
 #header.folded .navbar.main-navbar .navbar-nav::before,
@@ -136,11 +136,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Sidebar docks flush against the navbar's bottom edge */
-#sidebar.sidebar.left .sidebar-content {
-  border-top: 0;
-}
 #sidebar.sidebar.left {
   border-right: 1px solid var(--gpswox-border-subtle);
+}
+#sidebar.sidebar.left .sidebar-content {
+  border-right: 0;
 }
 
 /* Header icons (top-right): bump weight and add hover affordance */
