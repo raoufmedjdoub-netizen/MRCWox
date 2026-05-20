@@ -166,7 +166,9 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
 }
 
-/* Device widget (bottom panel) — switch info table to 2-column grid */
+/* Device widget (bottom panel) — switch info table to 2-column grid.
+ * Address row spans the full width because it's the longest value;
+ * the rest (Time / Stop duration / Driver) sits in 2 columns below. */
 .widget.widget-device .widget-body table,
 .widget.widget-device .widget-body table tbody {
   display: block;
@@ -180,10 +182,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 .widget.widget-device .widget-body table tr {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   column-gap: 10px;
   align-items: baseline;
   border: 0;
+}
+.widget.widget-device .widget-body table tr:first-child {
+  grid-column: 1 / -1;
 }
 .widget.widget-device .widget-body table tr > td {
   display: block;
@@ -202,8 +207,10 @@ h1, h2, h3, h4, h5, h6 {
 .widget.widget-device .widget-body table tr > td:last-child {
   color: var(--gpswox-text);
   font-weight: 500;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Unify "+ add" buttons across the app — primary blue style everywhere */
