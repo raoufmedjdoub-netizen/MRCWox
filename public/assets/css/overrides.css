@@ -166,13 +166,20 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
 }
 
-/* Device widget (bottom panel) — switch info table to 2-column grid.
- * Address row spans the full width because it's the longest value;
- * the rest (Time / Stop duration / Driver) sits in 2 columns below. */
+/* Device widget (bottom panel) — wider card + 2-column grid.
+ * Address row spans full width and may wrap onto 2 lines;
+ * the other 3 fields (Time / Stop duration / Driver) sit in 2 columns. */
+.widget.widget-device {
+  min-width: 500px;
+}
+.widget.widget-device .widget-body {
+  padding: 8px 12px;
+}
 .widget.widget-device .widget-body table,
 .widget.widget-device .widget-body table tbody {
   display: block;
   margin-bottom: 0;
+  width: 100%;
 }
 .widget.widget-device .widget-body table tbody {
   display: grid;
@@ -211,6 +218,21 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+/* Address row specifically: allow wrap onto 2 lines */
+.widget.widget-device .widget-body table tr:first-child > td:last-child {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4 !important;
+  word-break: break-word;
+}
+.widget.widget-device .widget-body table tr:first-child > td:last-child .pull-right {
+  float: none;
+  margin-left: 4px;
 }
 
 /* Unify "+ add" buttons across the app — primary blue style everywhere */
