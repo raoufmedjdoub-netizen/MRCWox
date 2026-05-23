@@ -285,26 +285,34 @@ html, body { margin: 0 !important; padding: 0 !important; }
   box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
 }
 
-/* Bottom widget bar — pin to viewport bottom so widgets always sit
- * flush against the browser edge regardless of how tall their content
- * grew (addresses wrapping on multiple lines, etc.). Cap height so the
- * panel never eats more than half the viewport, and scroll internally
- * if a widget overflows. */
+/* Bottom widget bar — pin to viewport bottom and let widgets be as
+ * tall as their content requires. No internal vertical scroll: the
+ * bar grows up from the bottom edge to fit the tallest widget. */
 #bottombar {
   position: fixed !important;
   bottom: 0 !important;
   left: 0 !important;
   right: 0 !important;
   width: auto !important;
-  max-height: 50vh;
+  max-height: none !important;
 }
 #bottombar #widgets {
-  max-height: 50vh;
+  height: auto !important;
+  max-height: none !important;
 }
 #bottombar #widgets .widgets-content {
   overflow-x: auto;
-  overflow-y: auto;
-  max-height: 50vh;
+  overflow-y: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+#bottombar #widgets .widgets-content .widget {
+  height: auto !important;
+  vertical-align: top;
+}
+#bottombar #widgets .widgets-content .widget .widget-body {
+  height: auto !important;
+  overflow: visible !important;
 }
 /* Map controls bottom-right need to sit above the bottombar */
 .map-controls.bottom-right {
