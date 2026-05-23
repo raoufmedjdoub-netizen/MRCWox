@@ -285,6 +285,32 @@ html, body { margin: 0 !important; padding: 0 !important; }
   box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
 }
 
+/* Bottom widget bar — pin to viewport bottom so widgets always sit
+ * flush against the browser edge regardless of how tall their content
+ * grew (addresses wrapping on multiple lines, etc.). Cap height so the
+ * panel never eats more than half the viewport, and scroll internally
+ * if a widget overflows. */
+#bottombar {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  max-height: 50vh;
+}
+#bottombar #widgets {
+  max-height: 50vh;
+}
+#bottombar #widgets .widgets-content {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 50vh;
+}
+/* Map controls bottom-right need to sit above the bottombar */
+.map-controls.bottom-right {
+  bottom: 0;
+}
+
 /* Device widget (bottom panel) — typography + allow values to wrap.
  * Original GPSWOX behavior: `max-width: 1px` + `text-overflow: ellipsis`
  * + `white-space: nowrap` on every TD = aggressive truncation that hides
