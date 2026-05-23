@@ -125,6 +125,68 @@ html, body { margin: 0 !important; padding: 0 !important; }
   min-height: 50px;
 }
 
+/* Vertically center brand and right-side icons inside the navbar.
+ * Bootstrap 3 uses floats for .navbar-brand and .navbar-nav, which
+ * means children sit at the top edge when the bar grows taller than
+ * its content. Convert the container + collapse + nav-list to flex so
+ * everything aligns on the centerline. */
+#header.folded .navbar.main-navbar > .container-fluid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 100%;
+  min-height: inherit;
+}
+#header.folded .navbar.main-navbar .navbar-header {
+  display: flex !important;
+  align-items: center !important;
+  float: none !important;
+  margin: 0 !important;
+}
+#header.folded .navbar.main-navbar .navbar-brand {
+  display: flex !important;
+  align-items: center !important;
+  height: auto !important;
+  line-height: 1 !important;
+  padding: 0 16px !important;
+  margin: 0 !important;
+  float: none !important;
+}
+#header.folded .navbar.main-navbar .navbar-brand > img {
+  max-height: 32px;
+  width: auto;
+  display: block;
+}
+#header.folded .navbar.main-navbar .navbar-collapse {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+#header.folded .navbar.main-navbar .navbar-nav {
+  display: flex !important;
+  align-items: center !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 16px 0 0 !important;
+}
+#header.folded .navbar.main-navbar .navbar-nav > li {
+  float: none !important;
+  display: flex !important;
+  align-items: center !important;
+  height: auto !important;
+}
+#header.folded .navbar.main-navbar .navbar-nav > li > a {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: auto !important;
+  line-height: 1 !important;
+}
+
 /* Empty .banner elements from Popups/index_banners_top.blade.php
  * can still take vertical space even when there's nothing to show.
  * Collapse them so they don't push the header down. */
