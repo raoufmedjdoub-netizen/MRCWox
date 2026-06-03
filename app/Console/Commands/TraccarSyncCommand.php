@@ -68,6 +68,8 @@ class TraccarSyncCommand extends Command
                 'tc_positions.course',
                 'tc_positions.address',
                 'tc_positions.attributes',
+                'tc_positions.accuracy',
+                'tc_positions.network',
                 'tc_devices.uniqueid as imei',
             ])
             ->get();
@@ -105,6 +107,14 @@ class TraccarSyncCommand extends Command
             ? strtotime($pos->devicetime) * 1000
             : null;
 
+        $network = null;
+        if (!empty($pos->network)) {
+            $decoded = json_decode($pos->network, true);
+            if (is_array($decoded)) {
+                $network = $decoded;
+            }
+        }
+
         return [
             'imei'       => $pos->imei,
             'uniqueId'   => $pos->imei,
@@ -118,6 +128,8 @@ class TraccarSyncCommand extends Command
             'fixTime'    => $fixTime,
             'deviceTime' => $deviceTime,
             'attributes' => $attributes,
+            'accuracy'   => $pos->accuracy ? (float) $pos->accuracy : null,
+            'network'    => $network,
         ];
     }
 

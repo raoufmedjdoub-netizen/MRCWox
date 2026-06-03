@@ -14,9 +14,15 @@
 }
 
 html, body,
-.btn, .form-control, .navbar, .modal-content, .panel,
+.btn:not(.icon), .form-control, .navbar, .modal-content, .panel,
 table, td, th, input, select, textarea, button {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", sans-serif !important;
+}
+
+/* Preserve icon fonts — never override font-family on icon elements */
+.icon, [class*="ico-"], [class*="icon-fa"],
+i.icon, i.btn.icon {
+  font-family: inherit !important;
 }
 
 body { color: var(--gpswox-text); }
