@@ -19,10 +19,13 @@ table, td, th, input, select, textarea, button {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", sans-serif !important;
 }
 
-/* Preserve icon fonts — never override font-family on icon elements */
-.icon, [class*="ico-"], [class*="icon-fa"],
+/* Preserve icon fonts — force icomoon back on icon elements */
+.icon, .ico, [class*="ico-"],
 i.icon, i.btn.icon {
-  font-family: inherit !important;
+  font-family: 'icomoon' !important;
+}
+[class*="icon-fa"], .fa {
+  font-family: 'FontAwesome' !important;
 }
 
 body { color: var(--gpswox-text); }
