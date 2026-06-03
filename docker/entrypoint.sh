@@ -3,6 +3,10 @@ set -e
 
 echo "==> Démarrage GPSWOX..."
 
+# Fuseau horaire
+ln -sf /usr/share/zoneinfo/${TZ:-Europe/Paris} /etc/localtime
+echo "${TZ:-Europe/Paris}" > /etc/timezone
+
 # Attendre MySQL
 echo "==> Attente MySQL..."
 until php -r "new PDO('mysql:host=${DB_HOST};dbname=${web_database}', '${DB_USERNAME}', '${DB_PASSWORD}');" 2>/dev/null; do
@@ -92,6 +96,14 @@ php artisan db:seed --class=DeviceIconsTableSeeder --force --no-interaction 2>/d
 echo "==> Vérification tracker_ports..."
 php artisan db:seed --class=TrackerPortsSeeder --force --no-interaction 2>/dev/null || true
 
+# Seed timezones
+echo "==> Vérification timezones..."
+php artisan db:seed --class=TimezonesTableSeeder --force --no-interaction 2>/dev/null || true
+
+# Passport clients (requis pour l'onglet API utilisateur)
+echo "==> Vérification Passport clients..."
+php artisan server:passport 2>/dev/null || true
+
 # Générer la config XML du Traccar standard
 echo "==> Génération config Traccar..."
 mkdir -p /opt/traccar/data /opt/traccar/logs
@@ -104,6 +116,7 @@ cat > /opt/traccar/conf/traccar.xml <<XMLEOF
     <entry key='database.user'>${DB_USERNAME:-root}</entry>
     <entry key='database.password'>${DB_PASSWORD}</entry>
     <entry key='teltonika.port'>12050</entry>
+    <entry key='database.registerUnknown'>true</entry>
     <entry key='server.statistics'>false</entry>
     <entry key='logger.enable'>true</entry>
     <entry key='logger.level'>info</entry>
