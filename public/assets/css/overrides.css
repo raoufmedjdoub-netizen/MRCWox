@@ -1,25 +1,72 @@
-/* GPSWOX UI overrides — Inter font + stronger contrast.
- * Loaded after the active theme CSS in Frontend/Layouts/partials/head.blade.php.
- * Light themes only — dark themes set their own foreground colors. */
+/* GPSWOX UI overrides — Inter font + Light/Dark theme support.
+ * Loaded after the active theme CSS in Frontend/Layouts/partials/head.blade.php. */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* ---------------------------------------------------------------------------
+ * Design tokens — Light (default)
+ * ------------------------------------------------------------------------- */
 :root {
+  --gpswox-bg: #FFFFFF;
+  --gpswox-bg-surface: #FAFAFA;
+  --gpswox-bg-hover: #F3F4F6;
   --gpswox-text: #111827;
   --gpswox-text-muted: #4B5563;
   --gpswox-text-faint: #6B7280;
   --gpswox-border: #D1D5DB;
   --gpswox-border-subtle: #E5E7EB;
   --gpswox-focus: #2563EB;
+  --gpswox-header-bg: #FFFFFF;
+  --gpswox-sidebar-bg: #FFFFFF;
+  --gpswox-panel-bg: #FFFFFF;
+  --gpswox-input-bg: #FFFFFF;
+  --gpswox-widget-bg: #FFFFFF;
+  --gpswox-bottombar-bg: #FFFFFF;
+  --gpswox-dropdown-bg: #FFFFFF;
+  --gpswox-modal-bg: #FFFFFF;
+  --gpswox-shadow: rgba(17, 24, 39, 0.06);
+  --gpswox-shadow-strong: rgba(17, 24, 39, 0.12);
+  --gpswox-tooltip-bg: #FFFFFF;
+  --gpswox-tooltip-text: #111827;
 }
 
+/* ---------------------------------------------------------------------------
+ * Design tokens — Dark (Graphite Chaud)
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --gpswox-bg: #292524;
+  --gpswox-bg-surface: #211F1D;
+  --gpswox-bg-hover: #302C2A;
+  --gpswox-text: #FAFAF9;
+  --gpswox-text-muted: #A8A29E;
+  --gpswox-text-faint: #78716C;
+  --gpswox-border: #44403C;
+  --gpswox-border-subtle: #36322F;
+  --gpswox-focus: #F59E0B;
+  --gpswox-header-bg: #1C1917;
+  --gpswox-sidebar-bg: #211F1D;
+  --gpswox-panel-bg: #292524;
+  --gpswox-input-bg: #292524;
+  --gpswox-widget-bg: #292524;
+  --gpswox-bottombar-bg: #211F1D;
+  --gpswox-dropdown-bg: #292524;
+  --gpswox-modal-bg: #292524;
+  --gpswox-shadow: rgba(0, 0, 0, 0.3);
+  --gpswox-shadow-strong: rgba(0, 0, 0, 0.5);
+  --gpswox-tooltip-bg: #292524;
+  --gpswox-tooltip-text: #FAFAF9;
+}
+
+/* ---------------------------------------------------------------------------
+ * Base typography
+ * ------------------------------------------------------------------------- */
 html, body,
 .btn:not(.icon), .form-control, .navbar, .modal-content, .panel,
 table, td, th, input, select, textarea, button {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Open Sans", sans-serif !important;
 }
 
-/* Preserve icon fonts — force icomoon back on icon elements */
+/* Preserve icon fonts */
 .icon, .ico, [class*="ico-"],
 i.icon, i.btn.icon {
   font-family: 'icomoon' !important;
@@ -28,7 +75,10 @@ i.icon, i.btn.icon {
   font-family: 'FontAwesome' !important;
 }
 
-body { color: var(--gpswox-text); }
+body {
+  color: var(--gpswox-text);
+  background-color: var(--gpswox-bg) !important;
+}
 
 /* Secondary text */
 .text-muted, .help-block, .form-text,
@@ -43,7 +93,9 @@ small, .small, .caption,
   color: var(--gpswox-text-faint) !important;
 }
 
-/* Borders — clearer separation */
+/* ---------------------------------------------------------------------------
+ * Borders
+ * ------------------------------------------------------------------------- */
 .form-control,
 .panel, .panel-default,
 .modal-content,
@@ -68,20 +120,19 @@ small, .small, .caption,
   border-color: var(--gpswox-border-subtle) !important;
 }
 
-/* Table headers a bit stronger */
 .table > thead > tr > th {
   color: var(--gpswox-text-muted);
   font-weight: 600;
 }
 
-/* Tabular numerals — aligned digits in tables (positions, speed, dates) */
+/* Tabular numerals */
 .table, .datatable, .dataTables_wrapper,
 .pos-table, .device-row,
 [data-tabular="true"] {
   font-feature-settings: "tnum" 1, "cv11" 1;
 }
 
-/* Focus rings — keyboard accessibility */
+/* Focus rings */
 *:focus-visible {
   outline: 2px solid var(--gpswox-focus);
   outline-offset: 2px;
@@ -95,29 +146,34 @@ small, .small, .caption,
   box-shadow: none;
 }
 
-/* Slightly stronger weight on labels and headings — Inter is lighter visually than Open Sans */
+/* Labels & headings */
 label, .control-label, .form-label,
 .modal-title, .panel-title {
   font-weight: 600;
 }
-
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 /* ---------------------------------------------------------------------------
- * Polish pass — header icons, marker tooltip, device widget, add buttons.
+ * Forms & inputs — dark mode support
  * ------------------------------------------------------------------------- */
+.form-control,
+input, select, textarea {
+  background-color: var(--gpswox-input-bg) !important;
+  color: var(--gpswox-text) !important;
+}
 
-/* Top navbar: continuous solid bar across full width, pinned flush to
- * the top of the viewport with no gap. */
+/* ---------------------------------------------------------------------------
+ * Header (navbar)
+ * ------------------------------------------------------------------------- */
 html, body { margin: 0 !important; padding: 0 !important; }
 
 #header.folded {
-  background-color: #ffffff;
+  background-color: var(--gpswox-header-bg);
   border-bottom: 1px solid var(--gpswox-border-subtle);
-  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+  box-shadow: 0 1px 2px var(--gpswox-shadow);
   margin: 0 !important;
   padding: 0 !important;
   min-height: 50px;
@@ -126,7 +182,7 @@ html, body { margin: 0 !important; padding: 0 !important; }
   display: none !important;
 }
 #header.folded .navbar.main-navbar {
-  background-color: #ffffff !important;
+  background-color: var(--gpswox-header-bg) !important;
   border: 0 !important;
   border-radius: 0 !important;
   margin: 0 !important;
@@ -134,11 +190,7 @@ html, body { margin: 0 !important; padding: 0 !important; }
   min-height: 50px;
 }
 
-/* Vertically center brand and right-side icons inside the navbar.
- * Bootstrap 3 uses floats for .navbar-brand and .navbar-nav, which
- * means children sit at the top edge when the bar grows taller than
- * its content. Convert the container + collapse + nav-list to flex so
- * everything aligns on the centerline. */
+/* Flex layout for navbar */
 #header.folded .navbar.main-navbar > .container-fluid {
   display: flex !important;
   align-items: center !important;
@@ -194,18 +246,14 @@ html, body { margin: 0 !important; padding: 0 !important; }
   align-items: center !important;
   height: auto !important;
   line-height: 1 !important;
+  color: var(--gpswox-text-muted) !important;
 }
 
-/* Empty .banner elements from Popups/index_banners_top.blade.php
- * can still take vertical space even when there's nothing to show.
- * Collapse them so they don't push the header down. */
 .banner:empty { display: none !important; }
 #header.folded .navbar.main-navbar .navbar-brand,
 #header.folded .navbar.main-navbar .navbar-nav {
   border-bottom: 0 !important;
 }
-/* Kill the diagonal/triangle accents that Bootstrap 3 GPSWOX puts
- * around the brand and nav (they only made sense with the "split" navbar) */
 #header.folded .navbar.main-navbar .navbar-brand::before,
 #header.folded .navbar.main-navbar .navbar-brand::after,
 #header.folded .navbar.main-navbar .navbar-nav::before,
@@ -214,22 +262,7 @@ html, body { margin: 0 !important; padding: 0 !important; }
   border: 0 !important;
 }
 
-/* Sidebar docks flush against the navbar's bottom edge.
- * Default GPSWOX reserves $sidebar-top-space (100px) from the top,
- * which leaves a visible map strip between the navbar and the
- * sidebar tabs. Pin the sidebar to top: $navbar-height instead. */
-#sidebar.sidebar.left {
-  top: 50px !important;
-  bottom: 0 !important;
-  height: auto !important;
-  max-height: none !important;
-  border-right: 1px solid var(--gpswox-border-subtle);
-}
-#sidebar.sidebar.left .sidebar-content {
-  border-right: 0;
-}
-
-/* Header icons (top-right): bump weight and add hover affordance */
+/* Header icons hover */
 .main-navbar .navbar-nav > li > a,
 .navbar.main-navbar .navbar-nav > li > a {
   border-radius: 6px;
@@ -244,7 +277,7 @@ html, body { margin: 0 !important; padding: 0 !important; }
 .main-navbar .navbar-nav > li > a:hover,
 .main-navbar .navbar-nav > li > a:focus,
 .main-navbar .navbar-nav > li.open > a {
-  background-color: #F3F4F6 !important;
+  background-color: var(--gpswox-bg-hover) !important;
 }
 .main-navbar .navbar-nav > li > a:hover > .icon,
 .main-navbar .navbar-nav > li > a:focus > .icon,
@@ -256,16 +289,198 @@ html, body { margin: 0 !important; padding: 0 !important; }
   font-weight: 600;
 }
 
-/* Leaflet marker tooltip + popup — modern card style */
+/* ---------------------------------------------------------------------------
+ * Sidebar
+ * ------------------------------------------------------------------------- */
+#sidebar.sidebar.left {
+  top: 50px !important;
+  bottom: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  border-right: 1px solid var(--gpswox-border-subtle);
+  background-color: var(--gpswox-sidebar-bg) !important;
+}
+#sidebar.sidebar.left .sidebar-content {
+  border-right: 0;
+  background-color: var(--gpswox-sidebar-bg) !important;
+}
+
+/* Sidebar tabs & content */
+[data-theme="dark"] #sidebar .nav-tabs {
+  border-color: var(--gpswox-border) !important;
+  background-color: var(--gpswox-bg-surface) !important;
+}
+[data-theme="dark"] #sidebar .nav-tabs > li > a {
+  color: var(--gpswox-text-muted) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+[data-theme="dark"] #sidebar .nav-tabs > li.active > a {
+  color: var(--gpswox-text) !important;
+  background-color: var(--gpswox-sidebar-bg) !important;
+  border-bottom-color: var(--gpswox-sidebar-bg) !important;
+}
+[data-theme="dark"] #sidebar .tab-content {
+  background-color: var(--gpswox-sidebar-bg) !important;
+}
+
+/* Device list items in dark mode */
+[data-theme="dark"] #objects-list li,
+[data-theme="dark"] .group-list li {
+  border-color: var(--gpswox-border-subtle) !important;
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] #objects-list li:hover,
+[data-theme="dark"] .group-list li:hover {
+  background-color: var(--gpswox-bg-hover) !important;
+}
+[data-theme="dark"] #objects-list li .name span[data-device="name"] {
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] #objects-list li .name span[data-device="time"] {
+  color: var(--gpswox-text-faint) !important;
+}
+[data-theme="dark"] #objects-list li .details {
+  color: var(--gpswox-text-muted) !important;
+}
+
+/* Search input in sidebar */
+[data-theme="dark"] #sidebar .search-field,
+[data-theme="dark"] #sidebar input[type="text"],
+[data-theme="dark"] #sidebar input[type="search"] {
+  background-color: var(--gpswox-input-bg) !important;
+  color: var(--gpswox-text) !important;
+  border-color: var(--gpswox-border) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dropdowns
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] .dropdown-menu {
+  background-color: var(--gpswox-dropdown-bg) !important;
+  border-color: var(--gpswox-border) !important;
+  box-shadow: 0 4px 16px var(--gpswox-shadow-strong) !important;
+}
+[data-theme="dark"] .dropdown-menu > li > a {
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] .dropdown-menu > li > a:hover,
+[data-theme="dark"] .dropdown-menu > li > a:focus {
+  background-color: var(--gpswox-bg-hover) !important;
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] .dropdown-menu .divider {
+  background-color: var(--gpswox-border-subtle) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Modals & panels
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] .modal-content {
+  background-color: var(--gpswox-modal-bg) !important;
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] .modal-header {
+  border-color: var(--gpswox-border) !important;
+}
+[data-theme="dark"] .modal-footer {
+  border-color: var(--gpswox-border) !important;
+}
+[data-theme="dark"] .panel,
+[data-theme="dark"] .panel-default {
+  background-color: var(--gpswox-panel-bg) !important;
+  border-color: var(--gpswox-border) !important;
+}
+[data-theme="dark"] .panel-heading {
+  background-color: var(--gpswox-bg-surface) !important;
+  color: var(--gpswox-text) !important;
+  border-color: var(--gpswox-border) !important;
+}
+[data-theme="dark"] .panel-body {
+  background-color: var(--gpswox-panel-bg) !important;
+}
+[data-theme="dark"] .well {
+  background-color: var(--gpswox-bg-surface) !important;
+  border-color: var(--gpswox-border) !important;
+  color: var(--gpswox-text) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Tables
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] .table {
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] .table > thead > tr > th {
+  color: var(--gpswox-text-muted) !important;
+  background-color: var(--gpswox-bg-surface) !important;
+}
+[data-theme="dark"] .table > tbody > tr > td {
+  color: var(--gpswox-text) !important;
+}
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--gpswox-bg-surface) !important;
+}
+[data-theme="dark"] .table > tbody > tr:hover {
+  background-color: var(--gpswox-bg-hover) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Buttons
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] .btn-default {
+  background-color: var(--gpswox-bg-surface) !important;
+  color: var(--gpswox-text) !important;
+  border-color: var(--gpswox-border) !important;
+}
+[data-theme="dark"] .btn-default:hover {
+  background-color: var(--gpswox-bg-hover) !important;
+}
+
+.btn.btn-action,
+.widget-empty .btn.btn-default,
+.action-block .btn.btn-action {
+  background: var(--gpswox-focus) !important;
+  border: 1px solid var(--gpswox-focus) !important;
+  color: #ffffff !important;
+  font-family: "Inter", sans-serif !important;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 7px 14px;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.btn.btn-action:hover,
+.btn.btn-action:focus,
+.widget-empty .btn.btn-default:hover,
+.widget-empty .btn.btn-default:focus,
+.action-block .btn.btn-action:hover,
+.action-block .btn.btn-action:focus {
+  background: #1D4ED8 !important;
+  border-color: #1D4ED8 !important;
+  color: #ffffff !important;
+}
+[data-theme="dark"] .btn.btn-action:hover,
+[data-theme="dark"] .btn.btn-action:focus {
+  background: #D97706 !important;
+  border-color: #D97706 !important;
+}
+.btn.btn-action > .icon,
+.widget-empty .btn.btn-default > .icon {
+  color: #ffffff !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Leaflet — map tooltips & popups
+ * ------------------------------------------------------------------------- */
 .leaflet-tooltip {
   font-family: "Inter", sans-serif !important;
-  background: #ffffff !important;
+  background: var(--gpswox-tooltip-bg) !important;
   border: 1px solid var(--gpswox-border) !important;
   border-radius: 6px !important;
-  box-shadow: 0 4px 12px -2px rgba(17, 24, 39, 0.10),
-              0 2px 4px -2px rgba(17, 24, 39, 0.05) !important;
+  box-shadow: 0 4px 12px -2px var(--gpswox-shadow),
+              0 2px 4px -2px var(--gpswox-shadow) !important;
   padding: 5px 10px !important;
-  color: var(--gpswox-text) !important;
+  color: var(--gpswox-tooltip-text) !important;
   font-weight: 500 !important;
   font-size: 12px !important;
   line-height: 1.4 !important;
@@ -282,21 +497,31 @@ html, body { margin: 0 !important; padding: 0 !important; }
 }
 .leaflet-popup-content-wrapper {
   border-radius: 8px !important;
-  box-shadow: 0 8px 24px -4px rgba(17, 24, 39, 0.12),
-              0 4px 8px -4px rgba(17, 24, 39, 0.06) !important;
+  box-shadow: 0 8px 24px -4px var(--gpswox-shadow-strong),
+              0 4px 8px -4px var(--gpswox-shadow) !important;
   border: 1px solid var(--gpswox-border-subtle) !important;
+  background: var(--gpswox-tooltip-bg) !important;
 }
 .leaflet-popup-content {
   font-family: "Inter", sans-serif !important;
-  color: var(--gpswox-text);
+  color: var(--gpswox-tooltip-text);
 }
 .leaflet-popup-tip {
-  box-shadow: 0 2px 4px rgba(17, 24, 39, 0.06) !important;
+  background: var(--gpswox-tooltip-bg) !important;
+  box-shadow: 0 2px 4px var(--gpswox-shadow) !important;
 }
 
-/* Bottom widget bar — pin to viewport bottom and let widgets be as
- * tall as their content requires. No internal vertical scroll: the
- * bar grows up from the bottom edge to fit the tallest widget. */
+/* Leaflet controls in dark mode */
+[data-theme="dark"] .leaflet-control-zoom a,
+[data-theme="dark"] .leaflet-control a {
+  background-color: var(--gpswox-panel-bg) !important;
+  color: var(--gpswox-text) !important;
+  border-color: var(--gpswox-border) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Bottom bar & widgets
+ * ------------------------------------------------------------------------- */
 #bottombar {
   position: fixed !important;
   bottom: 0 !important;
@@ -304,6 +529,8 @@ html, body { margin: 0 !important; padding: 0 !important; }
   right: 0 !important;
   width: auto !important;
   max-height: none !important;
+  background-color: var(--gpswox-bottombar-bg) !important;
+  border-top: 1px solid var(--gpswox-border-subtle) !important;
 }
 #bottombar #widgets {
   height: auto !important;
@@ -323,17 +550,11 @@ html, body { margin: 0 !important; padding: 0 !important; }
   height: auto !important;
   overflow: visible !important;
 }
-/* Map controls bottom-right need to sit above the bottombar */
 .map-controls.bottom-right {
   bottom: 0;
 }
 
-/* Device widget (bottom panel) — typography + allow values to wrap.
- * Original GPSWOX behavior: `max-width: 1px` + `text-overflow: ellipsis`
- * + `white-space: nowrap` on every TD = aggressive truncation that hides
- * the full address ("AADL 5000 lgts K..." style). We undo those 3
- * constraints on the value column so long content wraps onto multiple
- * lines naturally. Labels still stay on one line. */
+/* Device widget (bottom panel) */
 .widget.widget-device .widget-body table {
   table-layout: auto;
   width: 100% !important;
@@ -366,30 +587,49 @@ html, body { margin: 0 !important; padding: 0 !important; }
   margin-left: 6px;
 }
 
-/* Unify "+ add" buttons across the app — primary blue style everywhere */
-.btn.btn-action,
-.widget-empty .btn.btn-default,
-.action-block .btn.btn-action {
-  background: var(--gpswox-focus) !important;
-  border: 1px solid var(--gpswox-focus) !important;
-  color: #ffffff !important;
-  font-family: "Inter", sans-serif !important;
-  font-weight: 500;
-  border-radius: 6px;
-  padding: 7px 14px;
-  transition: background-color .15s ease, border-color .15s ease;
+[data-theme="dark"] .widget {
+  background-color: var(--gpswox-widget-bg) !important;
+  border-color: var(--gpswox-border) !important;
+  color: var(--gpswox-text) !important;
 }
-.btn.btn-action:hover,
-.btn.btn-action:focus,
-.widget-empty .btn.btn-default:hover,
-.widget-empty .btn.btn-default:focus,
-.action-block .btn.btn-action:hover,
-.action-block .btn.btn-action:focus {
-  background: #1D4ED8 !important;
-  border-color: #1D4ED8 !important;
-  color: #ffffff !important;
+[data-theme="dark"] .widget .widget-header {
+  background-color: var(--gpswox-bg-surface) !important;
+  border-color: var(--gpswox-border) !important;
+  color: var(--gpswox-text) !important;
 }
-.btn.btn-action > .icon,
-.widget-empty .btn.btn-default > .icon {
-  color: #ffffff !important;
+
+/* ---------------------------------------------------------------------------
+ * Scrollbars (dark mode)
+ * ------------------------------------------------------------------------- */
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--gpswox-bg-surface);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--gpswox-border);
+  border-radius: 4px;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--gpswox-text-faint);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark mode toggle button
+ * ------------------------------------------------------------------------- */
+#dark-mode-toggle {
+  cursor: pointer;
+}
+#dark-mode-icon {
+  transition: transform 0.3s ease;
+}
+[data-theme="dark"] #dark-mode-icon {
+  transform: rotate(180deg);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark mode toggle script — inline in overrides.css via JS in head.blade.php
+ * This section is CSS-only; JS is in the Blade template.
+ * ------------------------------------------------------------------------- */

@@ -254,6 +254,11 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:" onclick="toggleDarkMode()" role="button" rel="tooltip" data-placement="bottom" title="Mode sombre" id="dark-mode-toggle">
+                            <span class="icon" id="dark-mode-icon" style="font-family:sans-serif!important;font-size:16px;">&#9790;</span>
+                        </a>
+                    </li>
                     <li class="language-selection">
                         <a href="javascript:" data-url="{{ route('languages.index') }}" data-modal="language-selection">
                             <span class="icon">
