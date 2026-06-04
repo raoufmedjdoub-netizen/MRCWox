@@ -23,6 +23,7 @@ services:
       - APP_ENV=production
       - DB_HOST=mysql
       - REDIS_HOST=redis
+      - TZ=Africa/Algiers
     depends_on:
       mysql:
         condition: service_healthy
@@ -42,6 +43,7 @@ services:
       MYSQL_ROOT_PASSWORD: Woai6O4NkCjM7AEWvAVlVgDds9jR0OV6
       MYSQL_DATABASE: gpswox_web
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      TZ: Africa/Algiers
     command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0 --log-bin-trust-function-creators=1
     volumes:
       - mysql_data:/var/lib/mysql

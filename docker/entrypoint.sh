@@ -4,8 +4,8 @@ set -e
 echo "==> Démarrage GPSWOX..."
 
 # Fuseau horaire
-ln -sf /usr/share/zoneinfo/${TZ:-Europe/Paris} /etc/localtime
-echo "${TZ:-Europe/Paris}" > /etc/timezone
+ln -sf /usr/share/zoneinfo/${TZ:-Africa/Algiers} /etc/localtime
+echo "${TZ:-Africa/Algiers}" > /etc/timezone
 
 # Attendre MySQL
 echo "==> Attente MySQL..."
@@ -112,7 +112,7 @@ cat > /opt/traccar/conf/traccar.xml <<XMLEOF
 <!DOCTYPE properties SYSTEM 'http://java.sun.com/dtd/properties.dtd'>
 <properties>
     <entry key='database.driver'>com.mysql.cj.jdbc.Driver</entry>
-    <entry key='database.url'>jdbc:mysql://${DB_HOST:-mysql}:${DB_PORT:-3306}/gpswox_traccar?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC</entry>
+    <entry key='database.url'>jdbc:mysql://${DB_HOST:-mysql}:${DB_PORT:-3306}/gpswox_traccar?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Africa/Algiers</entry>
     <entry key='database.user'>${DB_USERNAME:-root}</entry>
     <entry key='database.password'>${DB_PASSWORD}</entry>
     <entry key='teltonika.port'>12050</entry>
